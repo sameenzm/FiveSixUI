@@ -6,7 +6,7 @@ export { default as ImageModal } from './basic/ImageModal';
 export { default as SearchPeriod } from './basic/SearchPeriod';
 export { default as Select } from './basic/Select';
 export { default as Show } from './basic/Show';
-// export { default as Summernote } from './basic/Summernote';
+export { default as Summernote } from './basic/Summernote';
 export { default as Tag } from './basic/Tag';
 export { default as TagsField } from './basic/TagsField';
 export { default as TenDaysSelect } from './basic/TenDaysSelect';
