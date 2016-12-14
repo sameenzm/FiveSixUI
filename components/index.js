@@ -14,7 +14,7 @@ export { default as TimeRangePicker } from './basic/TimeRangePicker';
 export { default as UploadImage } from './basic/UploadImage';
 
 // export { default as AoiMap } from './business/AoiMap';
-export { default as AreaSelect } from './business/AreaSelect';
+// export { default as AreaSelect } from './business/AreaSelect';
 export { default as AsynDownloadBtn } from './business/AsynDownloadBtn';
 export { default as BankCardNumberInput } from './business/BankCardNumberInput';
 export { default as BankSelect } from './business/BankSelect';
