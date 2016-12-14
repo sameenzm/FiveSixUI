@@ -95,11 +95,9 @@ describe('Select', () => {
                 allowClear={true}
             ></Select>
         );
-        // expect(wrapper.contains('<span class="wl-select-selection__clear"></span>')).to.be.true;
         wrapper.find('.wl-select-selection__clear').simulate('click');
     });
     it('Test prop: style', () => {
-      // 待测
         const wrapper = mount(
             <Select 
                 data={[{text: '今天',value: 'today'},{text: '昨天',value: 'yesterday'},{text: '明天',value: 'tomorrow'}]} 
@@ -110,39 +108,41 @@ describe('Select', () => {
                 style={{position: 'absolute', top: 400}}
             ></Select>
         );
-        // expect(wrapper.find('div[style="position: absolute; left: 50px;"]')).to.be.length(1);
-        //expect(wrapper.find('.wl-select').parent().css('position')).to.equal('absolute');
-        //expect(wrapper.find('.wl-select').parent().css('top')).to.equal('400');
+        const expectedStyles = {
+          position: 'absolute',
+          top: 400
+        }
+        expect(wrapper.prop('style')).to.eql(expectedStyles);
     });
     it('Test prop: multiple', () => {
         let index = 0;
         const changeValue = (value) => {
-          index++;
-          // console.log(index,value);
-          if (index === 2) {
-            // expect(value).to.equal("['']");
-          }
-          if(index === 3) {
-            // expect(value).to.equal("[]");
-          }
+            wrapper.setProps({
+                value: value
+            });
         };
         const wrapper = mount(
             <Select 
                 data={[{text: '今天',value: 'today'},{text: '昨天',value: 'yesterday'},{text: '明天',value: 'tomorrow'}]} 
-                value={['today','yesterday']} 
+                value={['today']} 
                 showSearch={true} 
                 showAll={true} 
                 allowClear={true} 
                 onChange={changeValue} 
-                style={{position: 'absolute', top: 400}}
+                style={{position: 'absolute', top: 400}} 
                 multiple = {true}
             ></Select>
         );
-        expect(wrapper.find('.wl-select-selection-selected-value').text()).to.equal('【今天】【昨天】');
+        expect(wrapper.find('.wl-select-selection-selected-value').text()).to.eql("【今天】");
+        wrapper.find('.wl-select-dropdown-menu-item').at(0).simulate('click');
+        expect(wrapper.find('.wl-select-selection-selected-value').text()).to.eql("全部");
+        wrapper.find('.wl-select-dropdown-menu-item').at(0).simulate('click');
+        expect(wrapper.find('.wl-select-selection-selected-value').text()).to.eql("");
+        wrapper.find('.wl-select-dropdown-menu-item').at(1).simulate('click');
+        expect(wrapper.find('.wl-select-selection-selected-value').text()).to.eql("【今天】");
         wrapper.find('.wl-select-dropdown-menu-item').at(2).simulate('click');
+        expect(wrapper.find('.wl-select-selection-selected-value').text()).to.eql("【今天】【昨天】");
         wrapper.find('.wl-select-dropdown-menu-item').at(3).simulate('click');
-        // expect(wrapper.find('.wl-select-selection-selected-value').text()).to.equal('【今天】【明天】');
-        wrapper.find('.wl-select-dropdown-menu-item').at(2).simulate('click');
-        // expect(wrapper.find('.wl-select-selection-selected-value').text()).to.equal('全部');
+        expect(wrapper.find('.wl-select-selection-selected-value').text()).to.eql("全部");
     });
 });
