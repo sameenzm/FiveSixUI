@@ -4,9 +4,10 @@
  * @author lichun <lichun@iwaimai.baidu.com>
  * @version 0.0.1
  */
-import React, {PropTypes} from 'react';
-import {Input} from 'antd';
+import React, { PropTypes } from 'react';
+import { Input } from 'antd';
 import _ from 'lodash';
+import { getFieldDecorator } from '../../_utils/splitFromAntd';
 
 /**
  * 组件属性申明
@@ -19,12 +20,12 @@ import _ from 'lodash';
  */
 
 const propTypes = {
-    form: PropTypes.object.isRequired,
-    name: PropTypes.string.isRequired,
-    required: PropTypes.bool,
-    disabled: PropTypes.bool,
-    initialValue: PropTypes.any,
-    validator: PropTypes.func
+  form: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  required: PropTypes.bool,
+  disabled: PropTypes.bool,
+  initialValue: PropTypes.any,
+  validator: PropTypes.func,
 };
 
 /**
@@ -36,63 +37,58 @@ const propTypes = {
  */
 
 export default class BankCardNumberInput extends React.Component {
-    constructor(props) {
-        super(props);
+
+  /**
+  * 默认验证方式
+  *
+  */
+
+  static defaultVerify(rule, value, callback) {
+    if (value && !/^(\d{4}\s?){4}(\d{3})?$/.test(value)) {
+      callback('请输入正确的银行卡号');
+    } else {
+      callback();
+    }
+  }
+
+  generateRules() {
+    const rules = [];
+    const { required, validator } = this.props;
+
+    if (required) {
+      rules.push({
+        required: true, message: '请输入银行卡号',
+      });
     }
 
-    propTypes: propTypes
-
-    /**
-     * 默认验证方式
-     *
-     */
-
-    _defaultVerify(rule, value, callback) {
-        if(value && !/^(\d{4}\s?){4}(\d{3})?$/.test(value)) {
-            callback('请输入正确的银行卡号');
-        }
-        else {
-            callback();
-        }
+    if (!validator) {
+      rules.push({
+        validator: this.defaultVerify,
+      });
+    } else {
+      rules.push({
+        validator: validator(),
+      });
     }
+    return rules;
+  }
 
-    _generateRules() {
-        const rules = [];
-        const {required, validator} = this.props;
-        if (required) {
-            rules.push({
-                required: true, message: '请输入银行卡号'
-            });
-        }
-        if (!validator) {
-            rules.push({
-                validator: this._defaultVerify
-            });
-        }
-        else {
-            rules.push({
-                validator: validator()
-            });
-        }
-        return rules;
-    }
+  render() {
+    const { form, name, disabled, initialValue } = this.props;
+    const otherProps = _.omit(this.props, [
+      'form',
+      'name',
+      'required',
+      'disabled',
+      'initialValue',
+      'validator',
+    ]);
 
-    render() {
-        const {form, name, disabled, initialValue} = this.props;
-        const otherProps = _.omit(this.props, [
-            'form',
-            'name',
-            'required',
-            'disabled',
-            'initialValue',
-            'validator'
-        ]);
-
-        return form.getFieldDecorator(name, {
-            initialValue,
-            rules: this._generateRules()
-        })(<Input
-            disabled={disabled}
-            {...otherProps}/>)
-    }
+    return getFieldDecorator(form)(name, {
+      initialValue,
+      rules: this.generateRules(),
+    })(<Input disabled={disabled} {...otherProps} />);
+  }
 }
+
+BankCardNumberInput.propTypes = propTypes;

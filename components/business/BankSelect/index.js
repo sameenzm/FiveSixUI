@@ -4,31 +4,22 @@
  * @author lichun <lichun@iwaimai.baidu.com>
  * @version 0.0.1
  */
-
-import React, {PropTypes} from 'react';
-import {Select} from 'antd';
-const Option = Select.Option;
-import {BANK_OPTIONS} from './constant';
-import _ from 'lodash'
+import React, { PropTypes } from 'react';
+import { Select } from 'antd';
+import { BANK_OPTIONS } from './constant';
 
 /**
  * 组件属性申明
- * @property {object} form
- * @property {string} name 参数名
- * @property {bool} required 是否必填
- * @property {bool} disabled 是否只读
- * @property {func} getPopupContainer 菜单渲染父节点。默认渲染到 body上
- * @property {string} initialValue 初始值
+ * @property {string} value
+ * @property {function} onChange
+ * @proper
  */
-
 const propTypes = {
-    form: PropTypes.object.isRequired,
-    name: PropTypes.string.isRequired,
-    required: PropTypes.bool,
-    disabled: PropTypes.bool,
-    getPopupContainer: PropTypes.func,
-    isSelectAllOptions: PropTypes.bool
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  isSelectAllOptions: PropTypes.bool,
 };
+const Option = Select.Option;
 
 /**
  * 表单项--银行
@@ -36,65 +27,36 @@ const propTypes = {
  * @extends ReactComponent
  */
 export default class BankSelect extends React.Component {
-    constructor(props) {
-        super(props)
-    }
 
-    propTypes: propTypes
+  /**
+  * 创建选择器的option pure
+  *
+  * @param {array} arr
+  * @return {array} option
+  */
+  static createOptionsFromArray(arr) {
+    const options = arr.map(item => (
+      <Option value={item} key={item}>{item}</Option>
+    ));
+    return options;
+  }
 
-    /**
-     * 创建选择器的option pure
-     *
-     * @param {array} arr
-     * @return {array} option
-     */
-    _createOptionsFromArray(arr) {
-        let options = arr.map(item => (
-            <Option value={item} key={item}>{item}</Option>
-        ))
-        return options;
+  getOptions() {
+    const { isSelectAllOptions } = this.props;
+    const options = this.createOptionsFromArray(BANK_OPTIONS);
+    if (isSelectAllOptions) {
+      options.unshift(<Option value="" key="all">全部</Option>);
     }
+    return options;
+  }
 
-    /**
-     * 默认验证规则 pure
-     *
-     * @param {array} arr
-     * @return {array} option
-     */
-    _generateRules() {
-        const {required} = this.props;
-        let rules = [];
-        if (required) {
-            rules.push({required: true, message: '请选择银行'})
-        }
-        return rules;
-    }
-
-    _getOptions () {
-        const {isSelectAllOptions} = this.props;
-        let options = this._createOptionsFromArray(BANK_OPTIONS);
-        if (isSelectAllOptions) {
-            options.unshift(<Option value=""  key="all">全部</Option>);
-        }
-        return options;
-    }
-
-    render() {
-        const {form, name, disabled} = this.props;
-        const otherProps = _.omit(this.props, [
-            'form',
-            'name',
-            'required',
-            'disabled'
-        ]);
-        return form.getFieldDecorator(name, {
-            rules: this._generateRules()
-        })(
-            <Select
-                disabled={disabled}
-                {...otherProps}
-            >
-                {this._getOptions()}
-            </Select>);
-    }
+  render() {
+    return (
+      <Select {...this.props}>
+        {this.getOptions()}
+      </Select>
+    );
+  }
 }
+
+BankSelect.propTypes = propTypes;
