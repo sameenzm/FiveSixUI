@@ -31,31 +31,22 @@ const propTypes = {
  * @class TagsField
  * @extends {React.Component}
  */
-class TagsField extends React.Component {
-/**
-* Creates an instance of TagsField.
-* @param {any} props
-* @memberOf TagsField
-*/
-  render() {
-    const { tags, onClickTag, onCloseTag, selected } = this.props;
-    return (
-      <div className="tags-field">
-        { tags.map(item =>
-          <Tag
-            ref={item.value}
-            key={item.value}
-            onClick={onClickTag}
-            onClose={onCloseTag}
-            value={item.value}
-            selected={item.value === selected}
-          >
-            {item.label}
-          </Tag>,
-        )}
-      </div>
-    );
-  }
+function TagsField({ tags, onClickTag, onCloseTag, selected }) {
+  return (
+    <div className="tags-field">
+      { tags.map(item =>
+        <Tag
+          key={item.value}
+          onClick={onClickTag}
+          onClose={onCloseTag}
+          value={item.value}
+          selected={item.value === selected}
+        >
+          {item.label}
+        </Tag>,
+      )}
+    </div>
+  );
 }
 TagsField.propTypes = propTypes;
 export default TagsField;

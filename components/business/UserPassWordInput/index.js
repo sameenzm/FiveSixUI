@@ -22,7 +22,7 @@ import { PASSWORD_MASK } from '../../constant';
  */
 const propTypes = {
   value: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 /**
@@ -32,26 +32,22 @@ const propTypes = {
  * @class UserPassWord
  * @extends {React.Component}
  */
-class UserPassWord extends React.Component {
-  render() {
-    const { value, onChange, ...others } = this.props;
-
-    return (<Input
-      size="large"
-      value={value}
-      onChange={onChange}
-      onFocus={(e) => {
-        const event = e;
-        if (event && event.currentTarget) {
-          const targetValue = event.currentTarget.value;
-          if (targetValue === PASSWORD_MASK) {
-            event.currentTarget.value = '';
-          }
+function UserPassWord({ value, onChange, ...others }) {
+  return (<Input
+    size="large"
+    value={value}
+    onChange={onChange}
+    onFocus={(e) => {
+      const event = e;
+      if (event && event.currentTarget) {
+        const targetValue = event.currentTarget.value;
+        if (targetValue === PASSWORD_MASK) {
+          event.currentTarget.value = '';
         }
-      }}
-      {...others}
-    />);
-  }
+      }
+    }}
+    {...others}
+  />);
 }
 UserPassWord.propTypes = propTypes;
 export default UserPassWord;

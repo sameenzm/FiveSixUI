@@ -2,36 +2,12 @@ import React, { Component, PropTypes} from 'react';
 import { Crumb, ImageModal, SearchPeriod, Show, TimeRangePicker,Select,TagsField,Tag,UserPassWordInput } from 'fivesix';
 import { Button,TimePicker } from 'antd';
 import moment from 'moment';
-function range(start, end) {
-  const result = [];
-  for (let i = start; i < end; i++) {
-    result.push(i);
-  }
-  return result;
-}
-function disabledHours() {
-  const hours = range(0, 60);
-  hours.splice(20, 4);
-  return hours;
-}
-
-function disabledMinutes(h) {
-  if (h === 20) {
-    return range(0, 31);
-  } else if (h === 23) {
-    return range(30, 60);
-  }
-  return [];
-}
 
 const addon=(panel) => (
-          <Button size="small" type="primary" onClick={() => panel.close()}>
-            Ok
-          </Button>
-        );
-let objComfig = {
-    addon: addon
-}
+  <Button size="small" type="primary" onClick={() => panel.close()}>
+    Ok
+  </Button>
+);
 export default class Homepage extends Component { 
     constructor(props){
         super(props);
@@ -61,6 +37,9 @@ export default class Homepage extends Component {
     disabledSeconds() {
         const second = Array.from({length:60}, (v, k) => k);
         return second.splice(0,11);
+    }
+    handleChange() {
+        console.log('input change');
     }
     render() {
         return (
@@ -92,16 +71,9 @@ export default class Homepage extends Component {
                     value={this.state.date} 
                     ordered={true} 
                     onChange={this.changeDate} 
-                    startConfig={objComfig}
+                    startConfig={{addon: addon}}
                     />
-                    <TimePicker
-                      disabledHours={disabledHours}
-                      disabledMinutes={disabledMinutes}
-                      disabledSeconds={this.disabledSeconds}
-                      hideDisabledOptions
-                      placeholder="Hide Directly"
-                    />
-                    <UserPassWordInput disabled={true}/>
+                    <UserPassWordInput value='123456' onChange={this.handleChange} disabled={true}/>
                 </div>
                  <Select 
                 data={[{text: '今天',value: 'today'},{text: '昨天',value: 'yesterday'},{text: '明天',value: 'tomorrow'}]} 
