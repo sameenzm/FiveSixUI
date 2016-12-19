@@ -1,17 +1,16 @@
 /**
  * @file 富文本编辑器Summernote组件
  *       modified by wangjuan01 <wangjuan01@iwaimai.baidu.com>
- * 
+ *
  * @author lichun<lichun@iwaimai.baidu.com>
  * @version 0.0.1
- * 
+ *
  */
-require('./libs/summernote.css');
-import './libs/summernote.min.js';
-import './styles.less';
-
 import React, { PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
+import './libs/summernote.css';
+import './libs/summernote.min.js';
+import './styles.less';
 
 const DEFAULT_CONFIG = {
   height: 300,
@@ -23,13 +22,13 @@ const DEFAULT_CONFIG = {
     ['para', ['ul', 'ol', 'paragraph']],
     ['height', ['height']],
     ['Insert', ['picture', 'link', 'table']],
-    ['Misc', ['fullscreen', 'codeview']]
-  ]
+    ['Misc', ['fullscreen', 'codeview']],
+  ],
 };
 
 /**
  * 组件属性申明
- * 
+ *
  * @property {string}        name              组件名                 默认值：''
  * @property {string}        value             组件值                 默认值：''
  * @property {bool}          disabled          是否可编辑             默认值：false
@@ -38,31 +37,85 @@ const DEFAULT_CONFIG = {
  * @property {func}          onChange          变化时回调函数
  */
 const propTypes = {
+  name: PropTypes.string,
   value: PropTypes.string,
   disabled: PropTypes.bool,
   uploadImgUrl: PropTypes.string,
   config: PropTypes.object,
-  onChange: PropTypes.func
-}
+  onChange: PropTypes.func,
+};
 
 /**
  * 主组件
- * 
+ *
  * @export
  * @class Summernote
  * @extends {React.Component}
  */
 export default class Summernote extends React.Component {
   static defaultProps = {
-    name: '',
+    name: 'summernote',
     value: '',
     disabled: false,
     uploadImgUrl: '',
     config: DEFAULT_CONFIG,
   };
 
+  static propTypes = propTypes;
+
   constructor(props) {
     super(props);
+
+    /**
+     * 上传图片
+     *
+     * @param {object} $el  包裹元素
+     * @param {object} file 文件
+     * @param {string} url  请求url
+     *
+     * @memberOf Summernote
+     */
+    this.uploadImg = ($el, file, url) => {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      $.ajax({
+        url,
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'json',
+        type: 'POST',
+        success: (data) => {
+          $el.summernote('insertImage', data.data);
+        },
+      });
+    };
+  }
+
+  componentDidMount() {
+    const { name, config, uploadImgUrl, onChange, value, disabled } = this.props;
+
+    this.$summernote = $(findDOMNode(this['summernote' + name]));
+    this.$summernote.summernote({
+      ...DEFAULT_CONFIG,
+      ...config,
+      callbacks: {
+        onImageUpload: (files) => {
+          for (let i = 0; i < files.length; i++) {
+            this.uploadImg(this.$summernote, files[i], uploadImgUrl);
+          }
+        },
+        onChange: content => onChange && onChange(content),
+      },
+    });
+
+    this.$summernote.summernote('code', value);
+
+    if (disabled) {
+      this.$summernote.summernote('disable');
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -78,62 +131,9 @@ export default class Summernote extends React.Component {
     }
   }
 
-  componentDidMount() {
-    const { name, config, uploadImgUrl, onChange, value, disabled } = this.props;
-
-    this.$summernote = $(findDOMNode(this.refs['summernote' + name]));
-    this.$summernote.summernote({
-      ...DEFAULT_CONFIG,
-      ...config,
-      callbacks: {
-        onImageUpload: (files) => {
-          for (var i = 0; i < files.length; i++) {
-            this.uploadImg(this.$summernote, files[i], uploadImgUrl);
-          }
-        },
-        onChange: (content) => onChange && onChange(content)
-      }
-    });
-
-    this.$summernote.summernote('code', value);
-
-    if (disabled) {
-      this.$summernote.summernote('disable');
-    }
-  }
-
   render() {
-    return (
-      <div className = "wl-summernote-con">
-        <input ref = { 'summernote' + this.props.name } />
-      </div>
-    )
-  }
-
-  /**
-   * 上传图片
-   * 
-   * @param {object} $el  包裹元素
-   * @param {object} file 文件
-   * @param {string} url  请求url
-   * 
-   * @memberOf Summernote
-   */
-  uploadImg($el, file, url) {
-    let formData = new FormData();
-    formData.append("file", file);
-
-    $.ajax({
-      url,
-      data: formData,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType: 'json',
-      type: 'POST',
-      success: function(data) {
-        $el.summernote('insertImage', data.data);
-      }
-    });
+    return (<div className="wl-summernote-con">
+      <input ref={(ref) => { this['summernote' + this.props.name] = ref; }} />
+    </div>);
   }
 }

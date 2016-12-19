@@ -2,7 +2,6 @@ import chai from 'chai';
 import chaiEnzyme from 'chai-enzyme';
 import chaiJsx from 'chai-jsx';
 import { jsdom } from 'jsdom';
-
 process.env.NODE_ENV='test';
 
 // 加入支持JSX和Enzyme的断言库
@@ -13,4 +12,6 @@ chai.use(chaiJsx);
 global.document = jsdom('<!doctype html><html><head><script></script></head><body></body></html>');
 global.window = document.defaultView;
 global.navigator = global.window.navigator;
+global.$ = global.jQuery = global.jquery = require('jquery')(window);
+
 require('matchmedia-polyfill');
