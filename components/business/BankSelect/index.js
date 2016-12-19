@@ -4,20 +4,19 @@
  * @author lichun <lichun@iwaimai.baidu.com>
  * @version 0.0.1
  */
-import React, { PropTypes } from 'react';
-import { Select } from 'antd';
-import { BANK_OPTIONS } from './constant';
+import React, {PropTypes} from 'react';
+import {Select} from 'antd';
+import {BANK_OPTIONS} from './constant';
+import _ from 'lodash'
 
 /**
  * 组件属性申明
  * @property {string} value
- * @property {function} onChange
- * @proper
+ * @property {function} onChange 
  */
 const propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  isSelectAllOptions: PropTypes.bool,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired
 };
 const Option = Select.Option;
 
@@ -27,36 +26,41 @@ const Option = Select.Option;
  * @extends ReactComponent
  */
 export default class BankSelect extends React.Component {
-
-  /**
-  * 创建选择器的option pure
-  *
-  * @param {array} arr
-  * @return {array} option
-  */
-  static createOptionsFromArray(arr) {
-    const options = arr.map(item => (
-      <Option value={item} key={item}>{item}</Option>
-    ));
-    return options;
-  }
-
-  getOptions() {
-    const { isSelectAllOptions } = this.props;
-    const options = this.createOptionsFromArray(BANK_OPTIONS);
-    if (isSelectAllOptions) {
-      options.unshift(<Option value="" key="all">全部</Option>);
+    constructor(props) {
+        super(props)
     }
-    return options;
-  }
 
-  render() {
-    return (
-      <Select {...this.props}>
-        {this.getOptions()}
-      </Select>
-    );
-  }
+    propTypes: propTypes
+
+    /**
+     * 创建选择器的option pure
+     *
+     * @param {array} arr
+     * @return {array} option
+     */
+    _createOptionsFromArray(arr) {
+        let options = arr.map(item => (
+            <Option value={item} key={item}>{item}</Option>
+        ))
+        return options;
+    }
+
+    _getOptions () {
+        const {isSelectAllOptions} = this.props;
+        let options = this._createOptionsFromArray(BANK_OPTIONS);
+        if (isSelectAllOptions) {
+            options.unshift(<Option value=""  key="all">全部</Option>);
+        }
+        return options;
+    }
+
+    render() {
+        return (
+            <Select
+                { ...this.props }
+            >
+                {this._getOptions()}
+            </Select>
+        )
+    }
 }
-
-BankSelect.propTypes = propTypes;
