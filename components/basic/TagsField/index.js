@@ -18,10 +18,10 @@ import './styles.less';
  * @property {any} selected 选中的标签
  */
 const propTypes = {
-    tags: PropTypes.array.isRequired,
-    onClickTag: PropTypes.func,
-    onCloseTag: PropTypes.func,
-    selected: PropTypes.any,
+  tags: PropTypes.array.isRequired,
+  onClickTag: PropTypes.func,
+  onCloseTag: PropTypes.func,
+  selected: PropTypes.any,
 };
 
 /**
@@ -31,35 +31,31 @@ const propTypes = {
  * @class TagsField
  * @extends {React.Component}
  */
-export default class TagsField extends React.Component {
-	/**
-	 * Creates an instance of TagsField.
-	 * 
-	 * @param {any} props
-	 * 
-	 * @memberOf TagsField
-	 */
-	constructor(props) {
-		super(props);
-	}
-
-	render() {
-        const { tags, onClickTag, onCloseTag, selected } = this.props;
-		return  (
-            <div className="tags-field">
-                { tags.map(item => {
-                    return (
-                        <Tag
-                            key = { item.value }
-                            onClick = { onClickTag }
-                            onClose = { onCloseTag }
-                            value = { item.value }
-                            selected = { item.value === selected }
-                            >
-                                { item.label }
-                        </Tag>)
-                })}
-            </div>
-        )
-	}
+class TagsField extends React.Component {
+/**
+* Creates an instance of TagsField.
+* @param {any} props
+* @memberOf TagsField
+*/
+  render() {
+    const { tags, onClickTag, onCloseTag, selected } = this.props;
+    return (
+      <div className="tags-field">
+        { tags.map(item =>
+          <Tag
+            ref={item.value}
+            key={item.value}
+            onClick={onClickTag}
+            onClose={onCloseTag}
+            value={item.value}
+            selected={item.value === selected}
+          >
+            {item.label}
+          </Tag>,
+        )}
+      </div>
+    );
+  }
 }
+TagsField.propTypes = propTypes;
+export default TagsField;
