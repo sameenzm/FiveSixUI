@@ -20,7 +20,9 @@ const eslintrc = {
     'babel'
   ],
   rules: {
-    
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'import/no-extraneous-dependencies': 0,
+    'no-unused-expressions': 0,
   }
 };
 
