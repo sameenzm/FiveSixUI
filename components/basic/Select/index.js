@@ -12,6 +12,7 @@ import _ from 'lodash';
 import { findDOMNode } from 'react-dom';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import lazyCache from 'react-lazy-cache';
+import $ from 'jquery';
 /**
  * 组件属性申明
  *
