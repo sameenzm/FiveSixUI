@@ -6,6 +6,7 @@
  */
 import React, { PropTypes } from 'react';
 import { Modal, Button } from 'antd';
+import $ from 'jquery';
 import './styles.less';
 
 /**
