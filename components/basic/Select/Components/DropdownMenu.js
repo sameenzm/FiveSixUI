@@ -3,7 +3,8 @@
 * @author 谢天
 * @version 0.0.1
 */
-import React, {Component, PropTypes} from 'react';
+/* eslint import/no-unresolved: 0*/
+import React, { Component, PropTypes } from 'react';
 import Option from './Option';
 import '../styles.less';
 /**
@@ -17,12 +18,12 @@ import '../styles.less';
  * @property {bool} showSearch
  */
 const propTypes = {
-    children: PropTypes.arrayOf(PropTypes.element),
-    open: PropTypes.bool.isRequired,
-    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    showAll: PropTypes.bool,
-    showSearch: PropTypes.bool
+  children: PropTypes.arrayOf(PropTypes.element),
+  open: PropTypes.bool.isRequired,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  showAll: PropTypes.bool,
+  showSearch: PropTypes.bool,
 };
 /**
  * 容器组件
@@ -31,8 +32,8 @@ const propTypes = {
  * @extends {React.Component}
  */
 class DropdownMenu extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
         /**
          * 如果包含全选或筛选，给出它们所在index pure
          *
@@ -41,48 +42,48 @@ class DropdownMenu extends Component {
          *
          * @memberOf DropdownMenu
          */
-        this.getChildren = (props) => {
-            let flag = 0;
-            if (props.showSearch) {
-                flag++;
-            }
-            if (props.showAll) {
-                flag++;
-            }
-            return flag;
-        };
-        this.initClassName = ' wl-select-dropdown-hidden';
+    this.getChildren = (p) => {
+      let flag = 0;
+      if (p.showSearch) {
+        flag++;
+      }
+      if (p.showAll) {
+        flag++;
+      }
+      return flag;
+    };
+    this.initClassName = ' wl-select-dropdown-hidden';
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.initClassName && nextProps.open !== this.props.open) {
+      this.initClassName = false;
     }
-    componentWillReceiveProps(nextProps) {
-        if (this.initClassName && nextProps.open !== this.props.open) {
-            this.initClassName = false;
-        }
-    }
-    componentDidUpdate() {
-        this.initClassName = ' wl-select-dropdown-hidden';
-    }
-    render() {
-        return (
-          <div
-            className={'wl-select-dropdown' + (this.props.open ? ' wl-fadeInDown' : this.initClassName ? this.initClassName : ' wl-fadeOutUp')}
-            style={{left: 0, top: 34, width: this.props.width}}
-          >
+  }
+  componentDidUpdate() {
+    this.initClassName = ' wl-select-dropdown-hidden';
+  }
+  render() {
+    return (
+      <div
+        className={`wl-select-dropdown${this.props.open ? ' wl-fadeInDown' : this.initClassName || ' wl-fadeOutUp'}`}
+        style={{ left: 0, top: 34, width: this.props.width }}
+      >
           {React.Children.toArray(this.props.children).slice(0, this.getChildren(this.props))}
-            <div style={{overflowY: 'auto', overflowX: 'hidden'}}>
-              <ul className="wl-select-dropdown-menu" style={{maxHeight: this.props.maxHeight}}>
+        <div style={{ overflowY: 'auto', overflowX: 'hidden' }}>
+          <ul className="wl-select-dropdown-menu" style={{ maxHeight: this.props.maxHeight }}>
                 {this.props.children ? React.Children.toArray(this.props.children).slice(this.getChildren(this.props))
-                  : <Option disabled label="No Data"/>
+                  : <Option disabled label="No Data" />
             }
-              </ul>
-            </div>
-          </div>
-        );
-    }
+          </ul>
+        </div>
+      </div>
+    );
+  }
 }
 
 DropdownMenu.propTypes = propTypes;
 DropdownMenu.defaultProps = {
-    maxHeight: '250px'
+  maxHeight: '250px',
 };
 
 export default DropdownMenu;
