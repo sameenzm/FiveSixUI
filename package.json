@@ -86,9 +86,10 @@
     "webpack": "~1.13.3"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --require ./tests/index.js --require ignore-styles \"./tests/**/*.test.js\"",
+    "test": "mocha --compilers js:babel-core/register --require ./tests/index.js --require ignore-styles \"./tests/basic/UploadImage/*.test.js\"",
     "lint": "npm run eslint && npm run lesshint",
     "eslint": "eslint components/business/DownloadList/index.js",
+    "lint-fix": "eslint --fix components/**/*.js",
     "lesshint": "lesshint components -r scripts/lesshint-report.js",
     "compile": "rm -rf lib && babel components --out-dir lib",
     "demo": "cd demo && node ./index.js --harmony",
