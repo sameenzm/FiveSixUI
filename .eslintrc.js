@@ -8,7 +8,8 @@ const eslintrc = {
     es6: true,
   },
   globals: {
-    '$': true
+    '$': true,
+    'BMap': true
   },
   parser: 'babel-eslint',
   parserOptions: {

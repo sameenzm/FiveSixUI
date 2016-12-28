@@ -9,8 +9,11 @@
 import React, { PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import './libs/summernote.css';
-import './libs/summernote.min.js';
 import './styles.less';
+require('bootstrap/js/modal.js');
+require('bootstrap/js/dropdown.js');
+require('bootstrap/js/tooltip.js');
+import './libs/summernote.min.js';
 
 const DEFAULT_CONFIG = {
   height: 300,

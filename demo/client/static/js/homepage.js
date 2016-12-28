@@ -1,5 +1,5 @@
 import React, { Component, PropTypes} from 'react';
-import { Crumb, ImageModal, SearchPeriod, Show, TimeRangePicker } from 'fivesix';
+import { Crumb, ImageModal, SerialInput, Show, AoiMap, Summernote } from 'fivesix';
 import { Button } from 'antd';
 import moment from 'moment';
 
@@ -20,7 +20,8 @@ export default class Homepage extends Component {
                 >
                     点我点我
                 </ImageModal>
-                <SearchPeriod/>
+                <SerialInput/>
+                <Summernote/>
                 <Show
                     isShow = { false }
                     isInline = { true }
@@ -30,7 +31,7 @@ export default class Homepage extends Component {
                 </Show>
                 <Button>测试</Button>
                 <div style={{position: 'absolute', left: '50'}}>
-                    <TimeRangePicker />
+                    <AoiMap />
                 </div>
             </div>
         )

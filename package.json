@@ -39,6 +39,7 @@
     "react-lazy-cache": "~3.0.1",
     "react-lazy-load": "~3.0.10",
     "warning": "^3.0.0",
+    "bootstrap": "^3.3.6",
     "codemirror": "^5.11.0"
   },
   "devDependencies": {
@@ -89,7 +90,7 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --require ./tests/index.js --require ignore-styles \"./tests/**/*.test.js\"",
     "lint": "npm run eslint && npm run lesshint",
-    "eslint": "eslint components/basic/Tag/**.js",
+    "eslint": "eslint components/business/AoiMap/**.js",
     "lesshint": "lesshint components -r scripts/lesshint-report.js",
     "compile": "rm -rf lib && babel components --out-dir lib",
     "demo": "cd demo && node ./index.js --harmony",

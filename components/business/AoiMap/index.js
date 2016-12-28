@@ -1,169 +1,198 @@
-import React, { Component, PropTypes} from 'react';
-import ReactDOM from 'react-dom';
-import { Card,Modal, Table, Form, Input, Row, Col, Button, Select, Popconfirm } from 'antd';
+/**
+* @file 画商圈组件
+*       modified by wangjuan01 <wangjuan01@iwaimai.baidu.com>
+*
+* @author lishaoyi<lishaoyi@iwaimai.baidu.com>
+* @version 0.0.1
+*
+*/
+import React, { Component, PropTypes } from 'react';
+import { Button } from 'antd';
 import MapCircle from './mapcircle';
 import './style.less';
-const FormItem = Form.Item;
-let maptool = new BMap.MercatorProjection();
+
+const maptool = new BMap.MercatorProjection();
+
 /**
- * 画商圈组件
+ * 组件属性申明
+ *
+ * @property {object} mapStyle      地图样式       默认值：{ height: '450px',  width: '100%' }
+ * @property {object} center        地图定位中心   默认值：{ cityName: '北京市' }
+ * @property {array}  polygons      多区块数组     默认值：[]
+ * @property {array}  backPolygons  背景多区块数组 默认值：[]
+ * @property {array}  tools         工具按钮       默认值：['edit', 'clear', 'save', 'reset', 'viewAll']
+ * @property {bool}   enableEditing 能否编辑       默认值：使用options属性的第一个值
+ * @property {func}   onSave        点击保存按钮之后的回调
+ * @property {func}   onDelete      点删除按钮之后的回调
+ */
+const propTypes = {
+  mapStyle: PropTypes.object,
+  center: PropTypes.object,
+  polygons: PropTypes.array,
+  backPolygons: PropTypes.array,
+  tools: PropTypes.array,
+  enableEditing: PropTypes.bool,
+  onSave: React.PropTypes.func,
+  onDelete: React.PropTypes.func,
+};
+
+/**
+ * 主组件
+ *
+ * @export
+ * @class AoiMap
+ * @extends {React.Component}
  */
 export default class AoiMap extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            backPolygonsDrawed: false,
-            isEditing: false,
-        };
-    }
-    static defaultProps = {
-        mapStyle: {height:'450px', width:'100%'},
-        polygons: [],
-        backPolygons:[],
-        center:{cityName:"北京市"},
-        enableEditing: true,
-        operator: {
-            edit: {
-                show: true
-            },
-            clear: {
-                show: true
-            },
-            save: {
-                show: true
-            },
-            reset: {
-                show: true
-            },
-            delete: {
-                show: false
-            },      
-            viewAll: {
-                show: true
-            }
+  static defaultProps = {
+    mapStyle: {
+      height: '450px',
+      width: '100%',
+    },
+    center: {
+      cityName: '北京市',
+    },
+    polygons: [],
+    backPolygons: [],
+    tools: ['edit', 'clear', 'save', 'reset', 'viewAll'],
+    enableEditing: true,
+  };
+
+  static propTypes = propTypes;
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      backPolygonsDrawed: false,
+      isEditing: false,
+    };
+
+    this.handleEdit = () => {
+      const isEditing = !this.state.isEditing;
+
+      if (isEditing) {
+        this.aoimap.open();
+      } else {
+        this.aoimap.close();
+      }
+      this.setState({ isEditing });
+    };
+
+    this.handleClear = () => {
+      this.aoimap.dispose();
+    };
+
+    this.handleSave = () => {
+      const polygons = this.aoimap.getPolygons();
+      const regions = [];
+
+      for (let i = 0, len = polygons.length; i < len; i++) {
+        const path = polygons[i].getPath();
+        const points = [];
+
+        for (let j = 0, pathLen = path.length; j < pathLen; j++) {
+          const mercatorObj = maptool.lngLatToPoint(path[j]);
+          const point = {
+            lng: path[j].lng,
+            lat: path[j].lat,
+            longitude: path[j].lng,
+            latitude: path[j].lat,
+            x: mercatorObj.x,
+            y: mercatorObj.y,
+          };
+          points.push(point);
         }
+        regions.push(points);
+      }
+      this.props.onSave && this.props.onSave(regions);
+    };
 
-    };  // 注意这里有分号
+    this.handleReset = () => {
+      const { polygons, enableEditing } = this.props;
 
-    static propTypes = {
-        mapStyle: React.PropTypes.object,
-        operator: React.PropTypes.object,
-        polygons: React.PropTypes.array,//多边形坐标数组
-        center: React.PropTypes.object,
-        backPolygons:React.PropTypes.array,//多边形坐标数组,背景
-        onSave:React.PropTypes.func,
-        enableEditing:React.PropTypes.bool,
-    };  // 注意这里有分号
+      this.aoimap.dispose();
+      this.aoimap.drawPolygons(polygons, enableEditing);
+    };
 
-    componentDidMount() {
-        const { enableEditing } = this.props;
+    this.handleDelete = () => {
+      this.props.onDelete && this.props.onDelete();
+    };
 
-        this.aoimap = new MapCircle('mapCon');
-        this.aoimap.drawBackPolygons(this.props.backPolygons);
-        this.aoimap.drawPolygons(this.props.polygons, enableEditing);
-        (!this.props.polygons || this.props.polygons.length == 0) && this.aoimap.setCenter(this.props.center);
-    }
+    this.handleViewAll = () => {
+      this.aoimap.resetViewport();
+    };
+  }
 
-    componentWillReceiveProps(){
-        const { enableEditing } = this.props;
+  componentDidMount() {
+    const { polygons, backPolygons, enableEditing, center } = this.props;
 
-        //测试代码
-        // if (this.props.backPolygons && this.props.backPolygons.length && !this.state.backPolygonsDrawed) {
-        //     this.setState({
-        //         backPolygonsDrawed:true
-        //     });
-        //     setTimeout(()=>{
-        //         this.aoimap.dispose();
-        //         this.aoimap.drawBackPolygons(this.props.backPolygons);
-        //         this.aoimap.drawPolygons(this.props.polygons);
-        //     },1000);
-        //
-        // }
-        setTimeout(()=>{
-            this.aoimap.dispose();
-            this.aoimap.drawBackPolygons(this.props.backPolygons);
-            this.aoimap.drawPolygons(this.props.polygons, enableEditing);
-        },1000);
+    this.aoimap = new MapCircle('mapCon');
+    this.aoimap.drawBackPolygons(backPolygons);
+    this.aoimap.drawPolygons(polygons, enableEditing);
+    (!polygons || polygons.length === 0) && this.aoimap.setCenter(center);
+  }
 
-    }
+  componentWillReceiveProps() {
+    const { polygons, backPolygons, enableEditing } = this.props;
 
-    reset() {
-        const { enableEditing } = this.props;
-        
-        this.aoimap.dispose();
-        this.aoimap.drawPolygons(this.props.polygons, enableEditing);
-    }
+    setTimeout(() => {
+      this.aoimap.dispose();
+      this.aoimap.drawBackPolygons(backPolygons);
+      this.aoimap.drawPolygons(polygons, enableEditing);
+    }, 1000);
+  }
 
-    save() {
-        var regions = [];
-        var polygons = this.aoimap.getPolygons();
-        for (var i = 0; i < polygons.length; i++) {
-            var polygon = polygons[i];
-            var path = polygon.getPath();
-            var points = [];
-            for (var j = 0; j < path.length; j++) {
-                var mercatorObj = maptool.lngLatToPoint(path[j]);
-                var point = {
-                    lng:path[j].lng,
-                    lat:path[j].lat,
-                    longitude:path[j].lng,
-                    latitude:path[j].lat,
-                    x:mercatorObj.x,
-                    y:mercatorObj.y
-                }
-                points.push(point);
-            };
-            regions.push(points);
-        };
-        // console.log(regions);
-        this.props.onSave && this.props.onSave(regions);
-    }
-    dele() {
-        this.props.onDelete && this.props.onDelete();
-    }
-    edit() {
-        let { isEditing } = this.state;
-        isEditing = !isEditing;
+  render() {
+    const { tools, mapStyle } = this.props;
+    const { isEditing } = this.state;
 
-        if (isEditing) {
-            this.aoimap.open();
-        } else {
-            this.aoimap.close();
+    return (<div className="wl-aoimap-con">
+      <div className="wl-aoimap-toolbar">
+        { tools.indexOf('edit') !== -1 ?
+          <Button
+            type={isEditing ? 'primary' : 'ghost'}
+            icon="edit"
+            onClick={this.handleEdit}
+          >编辑</Button> : ''
         }
-        this.setState({
-            isEditing
-        })
-    }
-    clear() {
-        this.aoimap.dispose();
-    }
-    viewAll() {
-        this.aoimap.resetViewport();
-    }
-
-    render() {
-        const reset = this.reset.bind(this);
-        const save = this.save.bind(this);
-        const edit = this.edit.bind(this);
-        const clear = this.clear.bind(this);
-        const viewAll = this.viewAll.bind(this);
-        const dele = this.dele.bind(this);
-        const { operator } = this.props;
-        const { isEditing } = this.state;
-
-        return (
-            <div className="aoi-map">
-                <div className="aoi-map-toolbar">
-                    { operator['edit'].show ? <Button type={isEditing ? "primary" : "ghost"} icon="edit" onClick={edit}>编辑</Button> : '' }
-                    { operator['clear'].show ? <Button type="ghost" icon="delete" onClick={clear}>清空</Button> : '' }
-                    { operator['reset'].show ? <Button type="ghost" icon="rollback" onClick={reset}>重置</Button> : '' }
-                    { operator['save'].show ? <Button type="ghost" icon="check" onClick={save}>保存</Button> : '' }
-                    { operator['delete'].show ? <Button type="ghost" icon="delete" onClick={dele}>删除</Button> : '' }                 
-                    { operator['viewAll'].show ? <Button type="ghost" icon="eye" onClick={viewAll}>视野</Button> : '' }
-                </div>
-                <div id="mapCon" style={this.props.mapStyle}  data-node="mapCon" ref="mapCon">
-                </div>
-            </div>
-        );
-    }
+        { tools.indexOf('clear') !== -1 ?
+          <Button
+            type="ghost"
+            icon="delete"
+            onClick={this.handleClear}
+          >清空</Button> : ''
+        }
+        { tools.indexOf('reset') !== -1 ?
+          <Button
+            type="ghost"
+            icon="rollback"
+            onClick={this.handleReset}
+          >重置</Button> : ''
+        }
+        { tools.indexOf('save') !== -1 ?
+          <Button
+            type="ghost"
+            icon="check"
+            onClick={this.handleSave}
+          >保存</Button> : ''
+        }
+        { tools.indexOf('delete') !== -1 ?
+          <Button
+            type="ghost"
+            icon="delete"
+            onClick={this.handleDelete}
+          >删除</Button> : ''
+        }
+        { tools.indexOf('viewAll') !== -1 ?
+          <Button
+            type="ghost"
+            icon="eye"
+            onClick={this.handleViewAll}
+          >视野</Button> : ''
+        }
+      </div>
+      <div id="mapCon" style={mapStyle}> </div>
+    </div>);
+  }
 }
