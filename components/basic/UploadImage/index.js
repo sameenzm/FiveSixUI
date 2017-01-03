@@ -8,13 +8,14 @@
  */
 import React, { PropTypes } from 'react';
 import { Modal, Upload, Button, Icon } from 'antd';
+import $ from 'jquery';
 
 /**
  * 组件属性申明
  * @property {string} uploadService 上传的服务器地址，必须
  * @property {string} imgName 图片名，必须
  * @property {string} imgUrl 图片链接
- * @property {bool} showSize
+ * @property {bool} showSize 是否在img后显示照片尺寸
  * @property {function} onChange change事件
  * @property {bool} disabled 上传按钮是否可点击
  */
@@ -179,6 +180,7 @@ export default class UploadImage extends React.Component {
           onPreview={() => this.showModal(true)}
         >
           <Button
+            className="wl-uploadimage-btn"
             type="ghost"
             disabled={disabled}
           >
@@ -191,7 +193,7 @@ export default class UploadImage extends React.Component {
           width={modalWidth}
           onCancel={() => this.showModal(false)}
         >
-          <img alt={imgName} src={imgUrl} style={{ maxWidth: modalWidth - 50 }} />
+          <img className="wl-uploadimage-preview" alt={imgName} src={imgUrl} style={{ maxWidth: modalWidth - 50 }} />
         </Modal>
       </div>
     );
