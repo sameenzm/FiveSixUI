@@ -2,7 +2,7 @@
 export { default as Crumb } from './basic/Crumb';
 export { default as DataTable } from './basic/DataTable';
 export { default as ImageModal } from './basic/ImageModal';
-// export { default as MultiConsequentInputGroup } from './basic/MultiConsequentInputGroup';
+// export { default as SerialInput } from './basic/SerialInput';
 export { default as SearchPeriod } from './basic/SearchPeriod';
 export { default as Select } from './basic/Select';
 export { default as Show } from './basic/Show';

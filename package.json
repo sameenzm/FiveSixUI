@@ -38,7 +38,8 @@
     "react-addons-pure-render-mixin": "~15.4.1",
     "react-lazy-cache": "~3.0.1",
     "react-lazy-load": "~3.0.10",
-    "warning": "^3.0.0"
+    "warning": "^3.0.0",
+    "codemirror": "^5.11.0"
   },
   "devDependencies": {
     "babel": "^6.5.2",
@@ -88,7 +89,7 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --require ./tests/index.js --require ignore-styles \"./tests/**/*.test.js\"",
     "lint": "npm run eslint && npm run lesshint",
-    "eslint": "eslint components/basic/Tag/**.js",
+    "eslint": "eslint components/basic/Crumb/**.js",
     "lesshint": "lesshint components -r scripts/lesshint-report.js",
     "compile": "rm -rf lib && babel components --out-dir lib",
     "demo": "cd demo && node ./index.js --harmony",
