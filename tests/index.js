@@ -15,6 +15,10 @@ chai.use(chaiJsx);
 global.document = jsdom('<!doctype html><html><head><script></script></head><body></body></html>');
 global.window = document.defaultView;
 global.navigator = global.window.navigator;
+
 global.expect = expect;
 global.sinon = sinon;
+
+//global.$ = global.jQuery = global.jquery = require('jquery')(window);
+
 require('matchmedia-polyfill');
