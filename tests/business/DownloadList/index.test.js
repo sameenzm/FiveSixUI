@@ -20,7 +20,6 @@ describe('DownloadList', () => {
         const wrapper = shallow(
             <DownloadList show={true} data={data}/>
         );
-        expect(wrapper.find('.downloadList-item-going').text()).to.eql('小度驿站-配送费1 【2011-10-17 00:17:56】状态：正在下载，请稍候…<Spin />');
         expect(wrapper.contains(<Spin />)).to.be.true;
     });
     // 下载成功文件
@@ -31,7 +30,6 @@ describe('DownloadList', () => {
         const wrapper = shallow(
             <DownloadList show={true} data={data}/>
         );
-        expect(wrapper.find('.downloadList-item-finish').text()).to.eql('小度驿站-配送费3 【2011-10-17 00:17:56】状态：完成保存到本地');
         expect(wrapper.find('.downloadList-item-finish').contains(<a href="www.baidu.com">保存到本地</a>)).to.be.true;
     });
     // 下载失败文件
@@ -42,7 +40,7 @@ describe('DownloadList', () => {
         const wrapper = shallow(
             <DownloadList show={true} data={data}/>
         );
-        expect(wrapper.find('.downloadList-item-error').text()).to.eql('小度驿站-配送费4 【2011-10-17 00:17:56】状态：失败');
+        expect(wrapper.find('.downloadList-item-error')).to.have.length(1);
     });
     it('Test props: onCancel', () => {
         const onCancel = sinon.spy();
