@@ -70,7 +70,7 @@ export default class DownloadList extends React.Component {
         onCancel={() => { onCancel && onCancel(false); }}
       >
         <ul>
-          { data.length > 0 ?
+          { data && data.length > 0 ?
             data.map((item, index) => (
               <li key={index} className={'downloadList-item-' + statusMap[item.status][0]}>
                 <dl>

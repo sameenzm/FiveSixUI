@@ -88,7 +88,7 @@
     "nightmare": "~2.9.0"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --require ./tests/index.js --require ignore-styles \"./tests/basic/UploadImage/**.js\"",
+    "test": "mocha --compilers js:babel-core/register --require ./tests/index.js --require ignore-styles \"./tests/**/*.test.js\"",
     "lint": "npm run eslint && npm run lesshint",
     "eslint": "eslint components/business/UploadImage/**.js",
     "lint-fix": "eslint --fix components/**/*.js",

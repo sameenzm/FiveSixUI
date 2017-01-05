@@ -88,7 +88,7 @@ class TimeRangePicker extends React.Component {
       const maxHour = max.hour();
       const maxMinute = max.minute();
       const maxSecond = max.second();
-      return (maxHour === hour && maxMinute === minute) ? second.splice(0, maxSecond) : [];
+      return (maxHour === hour && maxMinute === minute) ? second.splice(maxSecond + 1) : [];
     }
     return [];
   }
@@ -103,7 +103,7 @@ class TimeRangePicker extends React.Component {
         <TimePicker
           className="wl-timerangepicker-start-time"
           disabledHours={ordered ? () => this.disabledHours(null, this.end) : () => []}
-          disabledMinutes={ordered ? (hour) => { this.disabledMinutes(hour, null, this.end); } : () => []}
+          disabledMinutes={ordered ? hour => this.disabledMinutes(hour, null, this.end) : () => []}
           disabledSeconds={ordered ? (hour, minute) => this.disabledSeconds(hour, minute, null, this.end) : () => []}
           value={this.start}
           onChange={(start) => { this.handleChange('start', start); }}
@@ -114,7 +114,7 @@ class TimeRangePicker extends React.Component {
           className="wl-timerangepicker-end-time"
           value={this.end}
           disabledHours={ordered ? () => this.disabledHours(this.start) : () => []}
-          disabledMinutes={ordered ? (hour) => { this.disabledMinutes(hour, this.start); } : () => []}
+          disabledMinutes={ordered ? hour => this.disabledMinutes(hour, this.start) : () => []}
           disabledSeconds={ordered ? (hour, minute) => this.disabledSeconds(hour, minute, this.start) : () => []}
           onChange={(end) => { this.handleChange('end', end); }}
           {...endConfig}
