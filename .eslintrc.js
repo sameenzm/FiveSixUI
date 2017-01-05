@@ -22,9 +22,6 @@ const eslintrc = {
     'react',
     'babel'
   ],
-  globals: {
-    '$': true
-  },
   rules: {
     'class-methods-use-this': 0,
     "no-unused-expressions": [2, {"allowShortCircuit": true, "allowTernary": true}],
