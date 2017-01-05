@@ -84,14 +84,12 @@
     "sinon": "^1.17.6",
     "style-loader": "^0.13.1",
     "symbol-tree": "^3.1.4",
-    "webpack": "~1.13.3",
-    "nightmare": "~2.9.0"
+    "webpack": "~1.13.3"
   },
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --require ./tests/index.js --require ignore-styles \"./tests/**/*.test.js\"",
     "lint": "npm run eslint && npm run lesshint",
     "eslint": "eslint components/business/UploadImage/**.js",
-    "lint-fix": "eslint --fix components/**/*.js",
     "lesshint": "lesshint components -r scripts/lesshint-report.js",
     "compile": "rm -rf lib && babel components --out-dir lib",
     "demo": "cd demo && node ./index.js --harmony",
