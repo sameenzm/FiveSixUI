@@ -7,6 +7,9 @@ const eslintrc = {
     jest: true,
     es6: true,
   },
+  globals: {
+    '$': true
+  },
   parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 6,
@@ -23,11 +26,16 @@ const eslintrc = {
     '$': true
   },
   rules: {
-    'react/jsx-filename-extension': 0,
-    'import/no-extraneous-dependencies': 0,
     'class-methods-use-this': 0,
     "no-unused-expressions": [2, {"allowShortCircuit": true, "allowTernary": true}],
-    "max-len":0,
+    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'import/no-extraneous-dependencies': 0,
+    'no-extraneous-dependencies': 0,
+    'linebreak-style': 0,
+    'no-plusplus': 0,
+    'prefer-template': 0,
+    'max-len': 0,
+    'import/extensions': 0
   }
 };
 
