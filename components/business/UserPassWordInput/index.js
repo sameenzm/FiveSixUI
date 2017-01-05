@@ -51,4 +51,3 @@ function UserPassWord({ value, onChange, ...others }) {
 }
 UserPassWord.propTypes = propTypes;
 export default UserPassWord;
-

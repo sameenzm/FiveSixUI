@@ -31,16 +31,13 @@ const propTypes = {
 
 /**
  * 主组件
+ *
  * @export
  * @class TimeRangePicker
  * @extends {React.Component}
  */
+
 class TimeRangePicker extends React.Component {
-    /**
-     * Creates an instance of TimeRangePicker.
-     * @param {any} props
-     * @memberOf TimeRangePicker
-     */
   handleChange(type, value) {
     const { onChange } = this.props;
     onChange && onChange({
@@ -49,9 +46,10 @@ class TimeRangePicker extends React.Component {
       [type]: value,
     });
   }
+
   disabledHours(min, max) {
-    const hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-      17, 18, 19, 20, 21, 22, 23];
+    const hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+
     if (min) {
       const minHour = min.hour();
       return hours.splice(0, minHour);
@@ -90,10 +88,7 @@ class TimeRangePicker extends React.Component {
       const maxHour = max.hour();
       const maxMinute = max.minute();
       const maxSecond = max.second();
-      if (maxHour === hour && maxMinute === minute) {
-        second.splice(0, maxSecond);
-        return second;
-      }
+      return (maxHour === hour && maxMinute === minute) ? second.splice(maxSecond + 1) : [];
     }
     return [];
   }
@@ -111,7 +106,7 @@ class TimeRangePicker extends React.Component {
           disabledMinutes={ordered ? hour => this.disabledMinutes(hour, null, this.end) : () => []}
           disabledSeconds={ordered ? (hour, minute) => this.disabledSeconds(hour, minute, null, this.end) : () => []}
           value={this.start}
-          onChange={start => this.handleChange('start', start)}
+          onChange={(start) => { this.handleChange('start', start); }}
           {...startConfig}
         />
         {separator || ' 至 '}
@@ -121,7 +116,7 @@ class TimeRangePicker extends React.Component {
           disabledHours={ordered ? () => this.disabledHours(this.start) : () => []}
           disabledMinutes={ordered ? hour => this.disabledMinutes(hour, this.start) : () => []}
           disabledSeconds={ordered ? (hour, minute) => this.disabledSeconds(hour, minute, this.start) : () => []}
-          onChange={end => this.handleChange('end', end)}
+          onChange={(end) => { this.handleChange('end', end); }}
           {...endConfig}
         />
       </div>

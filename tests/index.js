@@ -5,7 +5,7 @@ import { jsdom } from 'jsdom';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-process.env.NODE_ENV='test';
+process.env.NODE_ENV = 'test';
 
 // 加入支持JSX和Enzyme的断言库
 chai.use(chaiEnzyme());

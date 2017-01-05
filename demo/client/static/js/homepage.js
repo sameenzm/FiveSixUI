@@ -1,5 +1,6 @@
 import React, { Component, PropTypes} from 'react';
-import { BankSelect, Crumb, ImageModal, SearchPeriod, Show, TimeRangePicker,Select,TagsField,Tag,UserPassWordInput } from 'fivesix';
+import { BankSelect, Crumb, ImageModal, SearchPeriod, Show, TimeRangePicker,
+    Select,TagsField,Tag,UserPassWordInput,AsynDownloadBtn,DownloadList } from 'fivesix';
 import { Button,TimePicker } from 'antd';
 import moment from 'moment';
 
@@ -40,6 +41,16 @@ export default class Homepage extends Component {
 			});
 		}
     render() {
+        const startTime = moment('11:11:11', 'HH:mm:ss');
+                const endTime = moment('11:11:11', 'HH:mm:ss');
+                const handleChange = (obj)=>{
+                };
+         const data = [
+        {status: 0,name: '配送费1',create_time: 1318781876.721},
+        {status: 1,name: '配送费2',create_time: 1318781876.721},
+        {status: 2,name: '配送费3',download_url: 'www.baidu.com',create_time: 1318781876.721},
+        {status: 3,name: '配送费4',create_time: 1318781876.721},
+        ];
         return (
             <div style={{height: 800}}>
 				            <BankSelect
@@ -52,16 +63,6 @@ export default class Homepage extends Component {
                 <Crumb
                     data = {[{title: '骑士管理', link: 'www.baidu.com'},{title: '装备管理'}]}
                 />
-                <ImageModal>
-                    <img src="http://yizhan.baidu.com/static/logisticsfrontend/images/sound_d165ad8.png" />
-                </ImageModal>
-                <ImageModal
-                    src='http://yizhan.baidu.com/static/logisticsfrontend/images/sound_d165ad8.png'
-                    onOpen = {()=> {console.log('222');}}
-
-                >
-                    点我点我
-                </ImageModal>
                 <Show
                     isShow = { false }
                     isInline = { true }
@@ -94,6 +95,15 @@ export default class Homepage extends Component {
                 >
                 zhangcongfeng
             </Tag>
+            <div>
+                <AsynDownloadBtn />
+                
+                <TimeRangePicker 
+                value={{start:startTime, end:endTime}} 
+                ordered={true} 
+                onChange={handleChange}
+                />
+            </div>
             </div>
         )
 
