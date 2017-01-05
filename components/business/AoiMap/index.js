@@ -7,33 +7,57 @@
 *
 */
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'antd';
-import MapCircle from './mapcircle';
+import { Button, Dropdown, Menu, Icon } from 'antd';
+import { MapCircle, getLonlat } from './mapcircle';
 import './style.less';
-
-const maptool = new BMap.MercatorProjection();
 
 /**
  * 组件属性申明
  *
- * @property {object} mapStyle      地图样式       默认值：{ height: '450px',  width: '100%' }
- * @property {object} center        地图定位中心   默认值：{ cityName: '北京市' }
- * @property {array}  polygons      多区块数组     默认值：[]
- * @property {array}  backPolygons  背景多区块数组 默认值：[]
- * @property {array}  tools         工具按钮       默认值：['edit', 'clear', 'save', 'reset', 'viewAll']
- * @property {bool}   enableEditing 能否编辑       默认值：使用options属性的第一个值
+ * @property {string} className    组件样式类名    默认值：''
+ * @property {object} mapStyle     地图样式        默认值：{ height: '450px',  width: '100%' }
+ * @property {object} center       地图定位中心    默认值：'北京市'
+ * @property {array}  points       多地点数组      默认值：[]
+ * @property {array}  regions      多区域数组      默认值：[]
+ * @property {array}  backRegions  背景多区域数组  默认值：[]
+ * @property {array}  regionTools  区域工具按钮组  默认值：['add', 'clear', 'reset', 'delete']
+ * @property {array}  pointTools   地点工具按钮组  默认值：['add', 'clear', 'reset', 'delete']
+ * @property {array}  commonTools  通用工具按钮组  默认值：['save', 'viewAll']
+ * @property {bool}   enableEditRegions 能否编辑区域       默认值：true
+ * @property {bool}   enableEditPoints  能否编辑点       默认值：true
+ * @property {number|string}   maxPointsLen   标记点的最大长度       默认值：Infinity
+ * @property {number|string}   maxRegionsLen  区域的最大长度         默认值：Infinity
  * @property {func}   onSave        点击保存按钮之后的回调
- * @property {func}   onDelete      点删除按钮之后的回调
+ * @property {func}   onDeleteRegions      点击删除按钮的区域之后的回调
+ * @property {func}   onDeletePoints      点击删除按钮的标记点之后的回调
+ * @property {func}   onDeleteAll      点击删除按钮的全部之后的回调
+ * @property {func}   onChange      组件值更改之后的回调
  */
 const propTypes = {
+  className: PropTypes.string,
   mapStyle: PropTypes.object,
-  center: PropTypes.object,
-  polygons: PropTypes.array,
-  backPolygons: PropTypes.array,
-  tools: PropTypes.array,
-  enableEditing: PropTypes.bool,
+  center: PropTypes.string,
+  points: PropTypes.array,
+  regions: PropTypes.array,
+  backRegions: PropTypes.array,
+  regionTools: PropTypes.array,
+  pointTools: PropTypes.array,
+  commonTools: PropTypes.array,
+  enableEditPoints: PropTypes.bool,
+  enableEditRegions: PropTypes.bool,
+  maxPointsLen: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.oneOf(['Infinity']),
+  ]),
+  maxRegionsLen: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.oneOf(['Infinity']),
+  ]),
   onSave: React.PropTypes.func,
-  onDelete: React.PropTypes.func,
+  onDeleteRegions: React.PropTypes.func,
+  onDeletePoints: React.PropTypes.func,
+  onDeleteAll: React.PropTypes.func,
+  onChange: React.PropTypes.func,
 };
 
 /**
@@ -44,79 +68,189 @@ const propTypes = {
  * @extends {React.Component}
  */
 export default class AoiMap extends Component {
+  static propTypes = propTypes;
+
   static defaultProps = {
+    className: '',
     mapStyle: {
       height: '450px',
       width: '100%',
     },
-    center: {
-      cityName: '北京市',
-    },
-    polygons: [],
-    backPolygons: [],
-    tools: ['edit', 'clear', 'save', 'reset', 'viewAll'],
-    enableEditing: true,
+    center: '北京市',
+    points: [],
+    regions: [],
+    backRegions: [],
+    pointTools: ['add', 'clear', 'reset', 'delete'],
+    regionTools: ['add', 'clear', 'reset', 'delete'],
+    commonTools: ['save', 'viewAll'],
+    enableEditPoints: true,
+    enableEditRegions: true,
+    maxPointsLen: 'Infinity',
+    maxRegionsLen: 'Infinity',
   };
 
-  static propTypes = propTypes;
+  /**
+   * 计算区块坐标值, pure
+   *
+   * @param {array} polygons 多边形对象数组
+   *
+   * @return {array} 多区块坐标数组
+   *
+   * @memberOf AoiMap
+   */
+  static getRegions = (polygons, revertFunc) => {
+    const regions = [];
+
+    for (let i = 0; i < polygons.length; i++) {
+      const polygon = polygons[i];
+      const path = polygon.getPath();
+      const points = [];
+      for (let j = 0; j < path.length; j++) {
+        const mercatorObj = revertFunc(path[j]);
+        const point = {
+          lng: path[j].lng,
+          lat: path[j].lat,
+          longitude: path[j].lng,
+          latitude: path[j].lat,
+          x: mercatorObj.x,
+          y: mercatorObj.y,
+        };
+
+        points.push(point);
+      }
+      regions.push(points);
+    }
+
+    return regions;
+  }
+
+  /**
+   * 计算地点坐标值, pure
+   *
+   * @param {array} markers 标记点对象数组
+   *
+   * @return {array} 地点坐标数组
+   *
+   * @memberOf AoiMap
+   */
+  static getPoints = (markers, revertFunc) => {
+    const points = [];
+
+    for (let i = 0; i < markers.length; i++) {
+      const point = markers[i].getPosition();
+      const mercatorObj = revertFunc(point);
+
+      points.push({
+        lng: point.lng,
+        lat: point.lat,
+        longitude: point.lng,
+        latitude: point.lat,
+        x: mercatorObj.x,
+        y: mercatorObj.y,
+      });
+    }
+
+    return points;
+  }
 
   constructor(props) {
     super(props);
 
     this.state = {
-      backPolygonsDrawed: false,
-      isEditing: false,
+      isPointAdding: false,
+      isRegionAdding: false,
+      disableAddPoints: props.maxPointsLen !== 'Infinity' && props.points.length === props.maxPointsLen,
+      disableAddRegions: props.maxRegionsLen !== 'Infinity' && props.regions.length === props.maxRegionsLen,
     };
 
-    this.handleEdit = () => {
-      const isEditing = !this.state.isEditing;
+    this.handleAddRegion = () => {
+      const isRegionAdding = !this.state.isRegionAdding;
 
-      if (isEditing) {
-        this.aoimap.open();
+      if (isRegionAdding) {
+        this.aoimap.openDrawingPolygon();
       } else {
-        this.aoimap.close();
+        this.aoimap.closeDrawingPolygon();
       }
-      this.setState({ isEditing });
+      this.setState({ isPointAdding: false, isRegionAdding });
     };
 
-    this.handleClear = () => {
-      this.aoimap.dispose();
+    this.handleAddPoint = () => {
+      const isPointAdding = !this.state.isPointAdding;
+
+      if (isPointAdding) {
+        this.aoimap.openDrawingMarker();
+      } else {
+        this.aoimap.closeDrawingMarker();
+      }
+
+      this.setState({ isRegionAdding: false, isPointAdding });
+    };
+
+    this.handleClear = (e) => {
+      const { maxRegionsLen, maxPointsLen, onChange } = this.props;
+
+      switch (e.key) {
+        case 'all':
+          this.aoimap.clearAll();
+          break;
+        case 'points':
+          this.aoimap.clearMarkers();
+          break;
+        default:
+          this.aoimap.clearPolygons();
+          break;
+      }
+
+      onChange && onChange(this.recountValue());
+      this.setState({
+        disableAddRegions: maxRegionsLen !== 'Infinity' && this.aoimap.getPolygons().length === maxRegionsLen,
+        disableAddPoints: maxPointsLen !== 'Infinity' && this.aoimap.getMarkers().length === maxPointsLen,
+      });
+    };
+
+    this.handleReset = (e) => {
+      const { regions, enableEditRegions, maxRegionsLen, points, enableEditPoints, maxPointsLen, onChange } = this.props;
+
+      switch (e.key) {
+        case 'all':
+          this.aoimap.clearAll();
+          this.aoimap.drawPolygons(regions, enableEditRegions);
+          this.aoimap.drawMarkers(points, enableEditPoints);
+          break;
+        case 'points':
+          this.aoimap.clearMarkers();
+          this.aoimap.drawMarkers(points, enableEditPoints);
+          break;
+        default:
+          this.aoimap.clearPolygons();
+          this.aoimap.drawPolygons(regions, enableEditRegions);
+          break;
+      }
+
+      onChange && onChange(this.recountValue());
+      this.setState({
+        disableAddRegions: maxRegionsLen !== 'Infinity' && this.aoimap.getPolygons().length === maxRegionsLen,
+        disableAddPoints: maxPointsLen !== 'Infinity' && this.aoimap.getMarkers().length === maxPointsLen,
+      });
+    };
+
+    this.handleDeleteRegions = (e) => {
+      const { onDeleteRegions, onDeleteAll, onDeletePoints } = this.props;
+      switch (e.key) {
+        case 'all':
+          onDeleteAll && onDeleteAll();
+          break;
+        case 'points':
+          onDeletePoints && onDeletePoints();
+          break;
+        default:
+          onDeleteRegions && onDeleteRegions();
+          break;
+      }
     };
 
     this.handleSave = () => {
-      const polygons = this.aoimap.getPolygons();
-      const regions = [];
-
-      for (let i = 0, len = polygons.length; i < len; i++) {
-        const path = polygons[i].getPath();
-        const points = [];
-
-        for (let j = 0, pathLen = path.length; j < pathLen; j++) {
-          const mercatorObj = maptool.lngLatToPoint(path[j]);
-          const point = {
-            lng: path[j].lng,
-            lat: path[j].lat,
-            longitude: path[j].lng,
-            latitude: path[j].lat,
-            x: mercatorObj.x,
-            y: mercatorObj.y,
-          };
-          points.push(point);
-        }
-        regions.push(points);
-      }
-      this.props.onSave && this.props.onSave(regions);
-    };
-
-    this.handleReset = () => {
-      const { polygons, enableEditing } = this.props;
-
-      this.aoimap.dispose();
-      this.aoimap.drawPolygons(polygons, enableEditing);
-    };
-
-    this.handleDelete = () => {
-      this.props.onDelete && this.props.onDelete();
+      this.props.onSave && this.props.onSave(this.getRegions());
     };
 
     this.handleViewAll = () => {
@@ -125,74 +259,145 @@ export default class AoiMap extends Component {
   }
 
   componentDidMount() {
-    const { polygons, backPolygons, enableEditing, center } = this.props;
+    const { points, regions, backRegions, enableEditRegions, enableEditPoints, maxRegionsLen, maxPointsLen, center, onChange } = this.props;
+
 
     this.aoimap = new MapCircle('mapCon');
-    this.aoimap.drawBackPolygons(backPolygons);
-    this.aoimap.drawPolygons(polygons, enableEditing);
-    (!polygons || polygons.length === 0) && this.aoimap.setCenter(center);
+    this.aoimap.drawBackPolygons(backRegions);
+    this.aoimap.drawPolygons(regions, enableEditRegions);
+    this.aoimap.drawMarkers(points, enableEditPoints);
+    (!regions || regions.length === 0) && (!points || points.length === 0) && this.aoimap.setCenter(center);
+
+    const me = this;
+
+    this.aoimap.map.addEventListener('polygonsUpdate', () => {
+      onChange && onChange(me.recountValue.apply(me));
+    });
+    this.aoimap.map.addEventListener('polygonsAdded', () => {
+      me.setState({
+        isRegionAdding: false,
+        disableAddRegions: maxRegionsLen !== 'Infinity' && me.aoimap.getPolygons().length === maxRegionsLen,
+      });
+    });
+    this.aoimap.map.addEventListener('markersUpdate', () => {
+      onChange && onChange(me.recountValue.apply(me));
+    });
+    this.aoimap.map.addEventListener('markersAdded', () => {
+      me.setState({
+        isPointAdding: false,
+        disableAddPoints: maxPointsLen !== 'Infinity' && me.aoimap.getMarkers().length === maxPointsLen,
+      });
+    });
   }
 
-  componentWillReceiveProps() {
-    const { polygons, backPolygons, enableEditing } = this.props;
-
-    setTimeout(() => {
-      this.aoimap.dispose();
-      this.aoimap.drawBackPolygons(backPolygons);
-      this.aoimap.drawPolygons(polygons, enableEditing);
-    }, 1000);
+  /**
+   * 重新计算组件值
+   *
+   * @return {object} 组件值
+   *
+   * @memberOf AoiMap
+   */
+  recountValue() {
+    return {
+      regions: AoiMap.getRegions(this.aoimap.getPolygons(), getLonlat),
+      points: AoiMap.getPoints(this.aoimap.getMarkers(), getLonlat),
+    };
   }
 
   render() {
-    const { tools, mapStyle } = this.props;
-    const { isEditing } = this.state;
+    const { mapStyle, className, regionTools, pointTools, commonTools } = this.props;
+    const { isRegionAdding, isPointAdding, disableAddRegions, disableAddPoints } = this.state;
+    const clearMenu = (
+      <Menu onClick={this.handleClear}>
+        <Menu.Item key="all">全部</Menu.Item>
+        {regionTools.indexOf('clear') !== -1 ?
+          <Menu.Item key="regions"><Icon type="appstore" /> 区域</Menu.Item> : ''
+        }
+        {pointTools.indexOf('clear') !== -1 ?
+          <Menu.Item key="points"><Icon type="environment" /> 地点</Menu.Item> : ''
+        }
+      </Menu>
+    );
 
-    return (<div className="wl-aoimap-con">
+    const resetMenu = (
+      <Menu onClick={this.handleReset}>
+        <Menu.Item key="all">全部</Menu.Item>        
+        {regionTools.indexOf('reset') !== -1 ?
+          <Menu.Item key="regions"><Icon type="appstore" /> 区域</Menu.Item> : ''
+        }
+        {pointTools.indexOf('reset') !== -1 ?
+          <Menu.Item key="points"><Icon type="environment" /> 地点</Menu.Item> : ''
+        }
+      </Menu>
+    );
+
+    const deleteMenu = (
+      <Menu onClick={this.handleDelete}>
+        <Menu.Item key="all">全部</Menu.Item>
+        {regionTools.indexOf('delete') !== -1 ?
+          <Menu.Item key="region"><Icon type="appstore" /> 区域</Menu.Item> : ''
+        }
+        {pointTools.indexOf('delete') !== -1 ?
+          <Menu.Item key="point"><Icon type="environment" /> 地点</Menu.Item> : ''
+        }
+      </Menu>
+    );
+
+    return (<div className={'wl-aoimap-con ' + className}>
       <div className="wl-aoimap-toolbar">
-        { tools.indexOf('edit') !== -1 ?
+        {regionTools.indexOf('add') !== -1 ?
           <Button
-            type={isEditing ? 'primary' : 'ghost'}
-            icon="edit"
-            onClick={this.handleEdit}
-          >编辑</Button> : ''
+            icon="plus"
+            type={isRegionAdding ? 'primary' : 'ghost'}
+            disabled={disableAddRegions}
+            onClick={this.handleAddRegion}
+          >添加区域</Button> : ''
         }
-        { tools.indexOf('clear') !== -1 ?
+        {pointTools.indexOf('add') !== -1 ?
           <Button
-            type="ghost"
-            icon="delete"
-            onClick={this.handleClear}
-          >清空</Button> : ''
+            icon="plus"
+            type={isPointAdding ? 'primary' : 'ghost'}
+            disabled={disableAddPoints}
+            onClick={this.handleAddPoint}
+          >添加地点</Button> : ''
         }
-        { tools.indexOf('reset') !== -1 ?
-          <Button
-            type="ghost"
-            icon="rollback"
-            onClick={this.handleReset}
-          >重置</Button> : ''
+        {regionTools.indexOf('clear') !== -1 || pointTools.indexOf('clear') ?
+          <Dropdown overlay={clearMenu}>
+            <Button icon="delete" type="ghost">
+              清空 ...
+            </Button>
+          </Dropdown> : ''
         }
-        { tools.indexOf('save') !== -1 ?
+        {regionTools.indexOf('reset') !== -1 || pointTools.indexOf('reset') !== -1 ?
+          <Dropdown overlay={resetMenu}>
+            <Button icon="rollback" type="ghost">
+              重置 ...
+            </Button>
+          </Dropdown> : ''
+        }
+        {regionTools.indexOf('delete') !== -1 || pointTools.indexOf('delete') !== -1 ?
+          <Dropdown overlay={deleteMenu}>
+            <Button icon="close" type="ghost">
+              删除 ...
+            </Button>
+          </Dropdown> : ''
+        }
+        {commonTools.indexOf('save') !== -1 ?
           <Button
             type="ghost"
             icon="check"
             onClick={this.handleSave}
           >保存</Button> : ''
         }
-        { tools.indexOf('delete') !== -1 ?
+        {commonTools.indexOf('viewAll') !== -1 ?
           <Button
             type="ghost"
-            icon="delete"
-            onClick={this.handleDelete}
-          >删除</Button> : ''
-        }
-        { tools.indexOf('viewAll') !== -1 ?
-          <Button
-            type="ghost"
-            icon="eye"
+            icon="scan"
             onClick={this.handleViewAll}
           >视野</Button> : ''
         }
       </div>
-      <div id="mapCon" style={mapStyle}> </div>
+      <div id="mapCon" style={mapStyle}></div>
     </div>);
   }
 }

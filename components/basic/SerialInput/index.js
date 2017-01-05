@@ -1,47 +1,53 @@
 /**
 * @file 连续区间输入组件
-* 
+*
 * @author wangjuan01<wangjuan01@iwaimai.baidu.com>
 * @version 0.0.1
-* 
+*
 */
 import React, { PropTypes } from 'react';
-import moment from 'moment';
-import { Form, InputNumber, Input, Icon, Button } from 'antd';
+import { InputNumber, Input, Icon, Button } from 'antd';
 import './styles.less';
 
 /**
  * 组件属性申明
  *
- * @property {array}         defaultValue     默认值                  
- * @property {number}        min              最小值                  默认值：0
- * @property {number}        max              最大值                  默认值：∞
- * @property {number|string} step             步数                    默认值：1
- * @property {bool}          disabled         是否可编辑              默认值：false
- * @property {func}          onChange         变化时回调函数
+ * @property {array}          defaultValue     默认值                  默认值: []
+ * @property {array}          value            当前值                  默认值: []
+ * @property {number|string}  min              最小值                  默认值：-Infinity
+ * @property {number|string}  max              最大值                  默认值：Infinity
+ * @property {number}         step             步数                    默认值：1
+ * @property {bool}           disabled         是否可编辑              默认值：false
+ * @property {func}           onChange         变化时回调函数
  */
 const propTypes = {
   defaultValue: PropTypes.array,
-  min: PropTypes.number,
-  max: PropTypes.number,
+  min: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.oneOf(['-Infinity']),
+  ]),
+  max: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.oneOf(['Infinity']),
+  ]),
   step: PropTypes.number,
   disabled: PropTypes.bool,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 /**
  * 主组件
- * 
+ *
  * @export
  * @class SerialInput
  * @extends {React.Component}
  */
 export default class SerialInput extends React.Component {
   static defaultProps = {
-    min: 0,
-    max: 5,
+    min: '-Infinity',
+    max: 'Infinity',
     step: 1,
-    disabled: false
+    disabled: false,
   };
 
   static propTypes = propTypes;
@@ -52,112 +58,182 @@ export default class SerialInput extends React.Component {
     /**
      * state属性申明
      *
-     * @property {bool}         serials   当前类型是否自定义
-     * @property {array}        rangeVal      当前的日期区间值
-     * @property {array|bool }  removedDates  当前的去除日期（false时，无去除日期工具）
+     * @property {array}        serials      当前的序列值
      */
     this.state = {
-      serials: props.defaultValue || [ props.min, props.max ]
-    }
+      serials: props.defaultValue || [props.min, props.max],
+    };
 
     /**
-     * 更改日期类型时的回调函数
-     * 
-     * @param {object} e 事件对象
-     * 
+     * 更改输入框类型的回调函数
+     *
+     * @param {number}        index  输入框id
+     * @param {string|number} value  输入框当前值
+     *
      * @memberOf SerialInput
      */
-    this.deleteInput = (e, index) => {
+    this.revertInput = (index, value) => {
+      const { onChange, step } = this.props;
+      const serials = [...this.state.serials];
+      if (index === 0) {
+        if (value === '-Infinity') {
+          serials[index] = serials[index + 1] !== 'Infinity' ? (serials[index + 1] - step) : 0;
+        } else {
+          serials[index] = '-Infinity';
+        }
+      } else if (index === serials.length - 1) {
+        if (value === 'Infinity') {
+          serials[index] = serials[index - 1] !== '-Infinity' ? (serials[index - 1] + step) : 0;
+        } else {
+          serials[index] = 'Infinity';
+        }
+      }
+
+      this.setState({ serials });
+      onChange && onChange(serials);
+    };
+
+    /**
+     * 删除输入框时的回调函数
+     *
+     * @param {number} index 输入框id
+     *
+     * @memberOf SerialInput
+     */
+    this.deleteInput = (index) => {
       const { onChange } = this.props;
-      let serials = [ ...this.state.serials ];
+      const serials = [...this.state.serials];
 
       serials.splice(index, 1);
 
       this.setState({ serials });
       onChange && onChange(serials);
-    }
+    };
 
     /**
-     * 更改日期类型时的回调函数
-     * 
-     * @param {object} e 事件对象
-     * 
+     * 添加输入框时的回调函数
+     *
+     * @param {number} index 输入框id
+     *
      * @memberOf SerialInput
      */
-    this.addInput = (e, index) => {
-      e.preventDefault(); 
+    this.addInput = (index) => {
       const { step, onChange } = this.props;
-      let serials = [ ...this.state.serials ];
+      const serials = [...this.state.serials];
+      let addValue;
+      if (serials[index] === '-Infinity') {
+        addValue = serials[index + 1] !== 'Infinity' ? (serials[index + 1] - step) : 0;
+      } else {
+        addValue = serials[index] + step;
+      }
 
-      console.log(index)
-
-      serials.splice(index + 1, 0, serials[index]+step);
+      serials.splice(index + 1, 0, addValue);
 
       this.setState({ serials });
 
       onChange && onChange(serials);
-    }
+    };
 
     /**
-     * 更改日期区间值组件时的回调函数
-     * 
-     * @param {array} newRange 日期区间值
-     * 
+     * 更改输入框值时的回调函数
+     *
+     * @param {number}  index      输入框id
+     * @param {number}  newValue   输入框新值
+     *
      * @memberOf SerialInput
      */
-    this.changeInput = (newValue, index) => {
-      const { step, onChange } = this.props;
-      let serials = [ ...this.state.serials ];
+    this.changeInput = (index, newValue) => {
+      const { onChange } = this.props;
+      const serials = [...this.state.serials];
 
       serials[index] = newValue;
 
       this.setState({ serials });
 
       onChange && onChange(serials);
-    }
+    };
   }
   render() {
     const { serials } = this.state;
-    const { min, max, step } = this.props;
+    const { min, max, step, disabled } = this.props;
 
     return (<div className="wl-serialinput-con">
-      { 
-        serials.map((item, index, array) => {
-          if (index === 0) {
-            return <span key={index}>
-              <Input style={{width: '80px'}} value={item} disabled/>
-              <span className="wl-serialinput-line"><Icon type="caret-right" onClick={(e) => this.addInput(e, index)}/></span>
-            </span>
-          } else if(index === array.length  - 1){
-            return <span key={index}>
-              <Input style={{width: '80px'}} value={item} disabled/>
-            </span>
-          } else {
-            return <span key={index} className="wl-serialinput-input">
-              <InputNumber 
-                style={{width: '80px'}}
+      { serials.map((item, index, arr) => {
+        if (index === 0) {
+          return (<span key={index} className="wl-serialinput-input">
+            {
+              item === '-Infinity' ? <Input value={item} disabled /> : <InputNumber
                 value={item}
                 step={step}
-                min={array[index-1]}
-                max={array[index+1]}
+                max={arr[index + 1] === 'Infinity' ? 'Infinity' : (arr[index + 1] - step)}
                 key={index}
-                onChange={this.changeInput}
+                disabled={disabled}
+                onChange={value => this.changeInput(index, value)}
               />
-              <Icon  className="wl-serialinput-dele" type="close-circle" onClick={(e) => this.deleteInput(e, index)}/>
-            <span className="wl-serialinput-line"><Icon type="caret-right" onClick={(e) => this.addInput(e, index)}/></span>
-          </span>
-          }
-          return <InputNumber 
+            }
+            {
+              !disabled && min === '-Infinity' ? <Icon
+                type="retweet"
+                onClick={() => this.revertInput(index, item)}
+              /> : ''
+            }
+            <span className="wl-serialinput-line">
+              <Button
+                type="ghost"
+                shape="circle"
+                icon="caret-right"
+                disabled={disabled || item + step === arr[index + 1]}
+                onClick={() => this.addInput(index)}
+              />
+            </span>
+          </span>);
+        } else if (index === arr.length - 1) {
+          return (<span key={index} className="wl-serialinput-input">
+            {
+              item === 'Infinity' ? <Input value={item} disabled /> : <InputNumber
+                value={item}
+                step={step}
+                min={arr[index - 1] === '-Infinity' ? '-Infinity' : (arr[index - 1] + step)}
+                key={index}
+                disabled={disabled}
+                onChange={value => this.changeInput(index, value)}
+              />
+            }
+            {
+              !disabled && max === 'Infinity' ? <Icon
+                type="retweet"
+                onClick={() => this.revertInput(index, item)}
+              /> : ''
+            }
+          </span>);
+        }
+        return (<span key={index} className="wl-serialinput-input">
+          <InputNumber
             value={item}
             step={step}
-            min={array[index-1]}
-            max={array[index+1]}
+            min={arr[index - 1] === '-Infinity' ? '-Infinity' : (arr[index - 1] + step)}
+            max={arr[index + 1] === 'Infinity' ? 'Infinity' : (arr[index + 1] - step)}
             key={index}
-            onChange={this.changeInput}
+            disabled={disabled || item + step === arr[index + 1]}
+            onChange={value => this.changeInput(index, value)}
           />
-        })
-      }
-      <Button type="dashed" shape="circle" icon="plus" onClick={(e) => this.addInput(e, serials.length-2)} disabled={serials[serials.length-2]+step===max}></Button>
+          {
+            !disabled ? <Icon
+              type="close-circle"
+              onClick={() => this.deleteInput(index)}
+            /> : ''
+          }
+          <span className="wl-serialinput-line">
+            <Button
+              type="ghost"
+              shape="circle"
+              icon="caret-right"
+              disabled={disabled || item + step === arr[index + 1]}
+              onClick={() => this.addInput(index)}
+            />
+          </span>
+        </span>);
+      })}
     </div>);
   }
 }
