@@ -88,14 +88,10 @@
     "nightmare": "~2.9.0"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --require ./tests/index.js --require ignore-styles \"./tests/basic/**/**.js\"",
+    "test": "mocha --compilers js:babel-core/register --require ./tests/index.js --require ignore-styles \"./tests/basic/UploadImage/**.js\"",
     "lint": "npm run eslint && npm run lesshint",
-<<<<<<< HEAD
-    "eslint": "eslint components/business/DownloadList/index.js",
+    "eslint": "eslint components/business/UploadImage/**.js",
     "lint-fix": "eslint --fix components/**/*.js",
-=======
-    "eslint": "eslint components/basic/Crumb/**.js",
->>>>>>> 8e1ea8ccb3decec691d46203dd18e3fa4098c7a2
     "lesshint": "lesshint components -r scripts/lesshint-report.js",
     "compile": "rm -rf lib && babel components --out-dir lib",
     "demo": "cd demo && node ./index.js --harmony",
