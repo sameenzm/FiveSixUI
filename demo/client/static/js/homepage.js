@@ -29,17 +29,6 @@ export default class Homepage extends Component {
         };
 	      this.handleChangeBank = this.handleChangeBank.bind(this);
     }
-    disabledHours(){
-      return [1,2,3,4,5];
-    }
-    disabledMinutes() {
-        const second = Array.from({length:60}, (v, k) => k);
-        return second.splice(0,11);
-    }
-    disabledSeconds() {
-        const second = Array.from({length:60}, (v, k) => k);
-        return second.splice(0,11);
-    }
     handleChange() {
         console.log('input change');
     }
@@ -73,7 +62,6 @@ export default class Homepage extends Component {
                 >
                     点我点我
                 </ImageModal>
-                <SearchPeriod/>
                 <Show
                     isShow = { false }
                     isInline = { true }
@@ -82,15 +70,7 @@ export default class Homepage extends Component {
                     <Button>测试</Button>
                 </Show>
                 <Button>测试</Button>
-                <div style={{position: 'absolute', left: '50',top: '500'}}>
-                    <TimeRangePicker
-                    value={this.state.date}
-                    ordered={true}
-                    onChange={this.changeDate}
-                    startConfig={{addon: addon}}
-                    />
-                    <UserPassWordInput value='123456' onChange={this.handleChange} disabled={true}/>
-                </div>
+                
                  <Select
                 data={[{text: '今天',value: 'today'},{text: '昨天',value: 'yesterday'},{text: '明天',value: 'tomorrow'}]}
                 value={this.state.value}
