@@ -23,15 +23,11 @@ const eslintrc = {
     '$': true
   },
   rules: {
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-filename-extension': 0,
     'import/no-extraneous-dependencies': 0,
-    'no-extraneous-dependencies': 0,
-    'linebreak-style': 0,
-    'no-plusplus': 0,
-    'prefer-template': 0,
-    'max-len': 0,
-    'no-unused-expressions': 0,
-    'import/extensions': 0
+    'class-methods-use-this': 0,
+    "no-unused-expressions": [2, {"allowShortCircuit": true, "allowTernary": true}],
+    "max-len":0,
   }
 };
 

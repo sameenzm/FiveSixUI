@@ -36,9 +36,8 @@ const propTypes = {
  * @class TimeRangePicker
  * @extends {React.Component}
  */
-export default class TimeRangePicker extends React.Component {
-  static propTypes = propTypes;
 
+class TimeRangePicker extends React.Component {
   handleChange(type, value) {
     const { onChange } = this.props;
     onChange && onChange({
@@ -50,6 +49,7 @@ export default class TimeRangePicker extends React.Component {
 
   disabledHours(min, max) {
     const hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
+
     if (min) {
       const minHour = min.hour();
       return hours.splice(0, minHour);
@@ -123,3 +123,5 @@ export default class TimeRangePicker extends React.Component {
     );
   }
 }
+TimeRangePicker.propTypes = propTypes;
+export default TimeRangePicker;
