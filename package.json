@@ -90,7 +90,7 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --require ./tests/index.js --require ignore-styles \"./tests/**/*.test.js\"",
     "lint": "npm run eslint && npm run lesshint",
-    "eslint": "eslint components/basic/Summernote/**.js",
+    "eslint": "eslint components/business/UploadImage/**.js",
     "lesshint": "lesshint components -r scripts/lesshint-report.js",
     "compile": "rm -rf lib && babel components --out-dir lib",
     "demo": "cd demo && node ./index.js --harmony",

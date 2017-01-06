@@ -3,6 +3,7 @@ import chaiEnzyme from 'chai-enzyme';
 import chaiJsx from 'chai-jsx';
 import { jsdom } from 'jsdom';
 import { expect } from 'chai';
+import jQuery from 'jquery';
 import sinon from 'sinon';
 
 process.env.NODE_ENV='test';
@@ -15,11 +16,8 @@ chai.use(chaiJsx);
 global.document = jsdom('<!doctype html><html><head></head><body></body></html>');
 global.window = document.defaultView;
 global.navigator = global.window.navigator;
-
-import jQuery from 'jquery';
-global.$ = global.jQuery = global.jquery = require('jquery')(window);
-
 global.expect = expect;
 global.sinon = sinon;
+global.$ = global.jQuery = global.jquery = require('jquery')(window);
 
 require('matchmedia-polyfill');
