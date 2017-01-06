@@ -321,7 +321,7 @@ export default class AoiMap extends Component {
 
     const resetMenu = (
       <Menu onClick={this.handleReset}>
-        <Menu.Item key="all">全部</Menu.Item>        
+        <Menu.Item key="all">全部</Menu.Item>
         {regionTools.indexOf('reset') !== -1 ?
           <Menu.Item key="regions"><Icon type="appstore" /> 区域</Menu.Item> : ''
         }
@@ -397,7 +397,7 @@ export default class AoiMap extends Component {
           >视野</Button> : ''
         }
       </div>
-      <div id="mapCon" style={mapStyle}></div>
+      <div id="mapCon" style={mapStyle}>{''}</div>
     </div>);
   }
 }

@@ -31,8 +31,9 @@ const eslintrc = {
     'no-plusplus': 0,
     'prefer-template': 0,
     'max-len': 0,
-    'no-unused-expressions': 0,
-    'import/extensions': 0
+    'import/extensions': 0,
+    'class-methods-use-this': 0,
+    "no-unused-expressions": [2, {"allowShortCircuit": true, "allowTernary": true}],
   }
 };
 

@@ -10,10 +10,11 @@ import React, { PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import './libs/summernote.css';
 import './styles.less';
+
 require('bootstrap/js/modal.js');
 require('bootstrap/js/dropdown.js');
 require('bootstrap/js/tooltip.js');
-import './libs/summernote.min.js';
+require('./libs/summernote.min.js');
 
 const DEFAULT_CONFIG = {
   height: 300,
@@ -25,7 +26,7 @@ const DEFAULT_CONFIG = {
     ['para', ['ul', 'ol', 'paragraph']],
     ['height', ['height']],
     ['Insert', ['picture', 'link', 'table']],
-    ['Misc', ['fullscreen', 'codeview']],
+    ['Misc', ['fullscreen']],
   ],
 };
 

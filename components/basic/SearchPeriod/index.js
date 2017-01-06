@@ -236,7 +236,7 @@ export default class SearchPeriod extends React.Component {
      */
     this.changeType = (e) => {
       const { defaultType, options, customizeDefault, dateFormat, onChange } = this.props;
-      
+
       const type = e.target.value;
       const isCustomize = (type === 'customize');
       const rangeVal = SearchPeriod.getRangeValue(type, defaultType, options, customizeDefault);

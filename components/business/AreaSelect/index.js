@@ -8,9 +8,9 @@ import MultiTeamSelect from './modules/MultiTeamSelect';
 import SortAreaSelect from './modules/SortAreaSelect';
 
 const comp = {
-    SortAreaSelect: SortAreaSelect,
-    MultiTeamSelect: MultiTeamSelect,
-    AreaSelect: AreaSelect
+  SortAreaSelect,
+  MultiTeamSelect,
+  AreaSelect,
 };
 
 export default comp;
