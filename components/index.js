@@ -2,7 +2,7 @@
 export { default as Crumb } from './basic/Crumb';
 export { default as DataTable } from './basic/DataTable';
 export { default as ImageModal } from './basic/ImageModal';
-// export { default as SerialInput } from './basic/SerialInput';
+export { default as SerialInput } from './basic/SerialInput';
 export { default as SearchPeriod } from './basic/SearchPeriod';
 export { default as Select } from './basic/Select';
 export { default as Show } from './basic/Show';
@@ -13,7 +13,7 @@ export { default as TenDaysSelect } from './basic/TenDaysSelect';
 export { default as TimeRangePicker } from './basic/TimeRangePicker';
 export { default as UploadImage } from './basic/UploadImage';
 
-// export { default as AoiMap } from './business/AoiMap';
+export { default as AoiMap } from './business/AoiMap';
 export { default as AreaSelect } from './business/AreaSelect';
 export { default as AsynDownloadBtn } from './business/AsynDownloadBtn';
 export { default as BankSelect } from './business/BankSelect';
