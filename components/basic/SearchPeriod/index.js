@@ -105,6 +105,7 @@ export default class SearchPeriod extends React.Component {
    */
   static getAllDatesOption(range) {
     const selectDates = [];
+
     if (range) {
       const startDate = moment(range[0], DEFAULT_DATE_FORMAT);
       const endDate = moment(range[1], DEFAULT_DATE_FORMAT);
@@ -222,7 +223,7 @@ export default class SearchPeriod extends React.Component {
      */
     this.state = {
       isCustomize: props.defaultType === 'customize',
-      rangeVal: this.getRangeValue(null, props.defaultType, props.options, props.customizeDefault),
+      rangeVal: SearchPeriod.getRangeValue(null, props.defaultType, props.options, props.customizeDefault),
       removedDates: props.removeDateTool ? [] : false,
     };
 
@@ -234,14 +235,15 @@ export default class SearchPeriod extends React.Component {
      * @memberOf SearchPeriod
      */
     this.changeType = (e) => {
+      const { defaultType, options, customizeDefault, dateFormat, onChange } = this.props;
+
       const type = e.target.value;
       const isCustomize = (type === 'customize');
-      const { defaultType, options, customizeDefault, dateFormat, onChange } = this.props;
-      const rangeVal = this.getRangeValue(type, defaultType, options, customizeDefault);
+      const rangeVal = SearchPeriod.getRangeValue(type, defaultType, options, customizeDefault);
       const removedDates = [];
 
       this.setState({ isCustomize, rangeVal, removedDates });
-      onChange && onChange(this.recalculateValue(rangeVal, removedDates, dateFormat));
+      onChange && onChange(SearchPeriod.recalculateValue(rangeVal, removedDates, dateFormat));
     };
 
     /**
@@ -273,7 +275,7 @@ export default class SearchPeriod extends React.Component {
 
       this.setState({ rangeVal, removedDates });
 
-      onChange && onChange(this.recalculateValue(rangeVal, removedDates, dateFormat));
+      onChange && onChange(SearchPeriod.recalculateValue(rangeVal, removedDates, dateFormat));
     };
 
     /**
@@ -288,7 +290,7 @@ export default class SearchPeriod extends React.Component {
 
       this.setState({ removedDates });
 
-      onChange && onChange(this.recalculateValue(this.state.rangeVal, removedDates, dateFormat));
+      onChange && onChange(SearchPeriod.recalculateValue(this.state.rangeVal, removedDates, dateFormat));
     };
   }
 
@@ -331,7 +333,7 @@ export default class SearchPeriod extends React.Component {
           value={rangeVal}
           allowClear={allowRangeClear}
           onChange={this.changeRangeVal}
-          disabledDate={disabledDate ? cur => this.disabledDate(cur) : cur => this.defaultDisabledDate(cur, options, moment().startOf('day'))}
+          disabledDate={disabledDate ? cur => this.disabledDate(cur) : cur => SearchPeriod.defaultDisabledDate(cur, options, moment().startOf('day'))}
         />
         { removeDateTool ? <div className="wl-searchperiod-removedate" id="content">
           <span>去除日期：</span>
@@ -343,7 +345,7 @@ export default class SearchPeriod extends React.Component {
             value={removedDates}
             onChange={this.changeRemovedDates}
           >
-            {this.getAllDatesOption(rangeVal)}
+            {SearchPeriod.getAllDatesOption(rangeVal)}
           </Select>
         </div> : '' }
       </div>

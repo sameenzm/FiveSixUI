@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import {Spin} from 'antd';
-import { DownloadList } from '../../../components';
 import $ from 'jquery';
+import DownloadList from '../../../components/business/DownloadList';
 
 describe('DownloadList', () => {
     // 基础测试

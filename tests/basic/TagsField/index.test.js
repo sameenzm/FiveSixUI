@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { TagsField } from '../../../components';
+import TagsField from '../../../components/basic/TagsField';
 
 describe('TagsField', () => {
     it('Test Example: props', () => {

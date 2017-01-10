@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
 
-import { ImageModal } from '../../../components';
+import ImageModal from '../../../components/basic/ImageModal';
 
 describe('ImageModal', () => {
     // 基础测试

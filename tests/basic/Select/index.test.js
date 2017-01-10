@@ -3,7 +3,8 @@ import { render,shallow,mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { Select } from '../../../components';
+import Select from '../../../components/basic/Select';
+
 
 describe('Select', () => {
     // 基础测试

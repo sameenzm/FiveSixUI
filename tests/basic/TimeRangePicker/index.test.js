@@ -3,7 +3,7 @@ import { render, shallow, mount } from 'enzyme';
 import moment from 'moment';
 import { findDOMNode } from 'react-dom'
 
-import { TimeRangePicker } from '../../../components';
+import TimeRangePicker from '../../../components/basic/TimeRangePicker';
 
 describe('TimeRangePicker', () => {
     // 基础测试

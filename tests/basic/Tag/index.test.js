@@ -3,7 +3,7 @@ import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { Tag } from '../../../components';
+import Tag from '../../../components/basic/Tag';
 
 describe('Tag', () => {
     // 基础测试

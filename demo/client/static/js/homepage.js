@@ -1,6 +1,6 @@
 import React, { Component, PropTypes} from 'react';
 import { BankSelect, Crumb, ImageModal, SearchPeriod, Show, TimeRangePicker,
-    Select,TagsField,Tag,UserPassWordInput,AsynDownloadBtn,DownloadList } from 'fivesix';
+    Select,TagsField,Tag,UserPassWordInput,AsynDownloadBtn,DownloadList,TeamTypeRadio } from 'fivesix';
 import { Button,TimePicker } from 'antd';
 import moment from 'moment';
 
@@ -14,7 +14,7 @@ export default class Homepage extends Component {
         super(props);
         this.state={
             value: ['today'],
-	          bank: '招商银行',
+              bank: '招商银行',
             date: {start:moment('11:11:11', 'HH:mm:ss'), end:moment('11:11:11', 'HH:mm:ss')}
         }
         this.changeValue = (value) => {
@@ -22,24 +22,31 @@ export default class Homepage extends Component {
                 value: value,
             });
         }
+        this.radioChange = (e) => {
+            console.log(e);
+        }
+        this.onTest = (e)=>{
+            console.log('test');
+            console.log(e);
+        };
         this.changeDate = (obj) => {
             console.log(obj);
             this.setState({
                     date: obj,
             });
         };
-	      this.handleChangeBank = this.handleChangeBank.bind(this);
+          this.handleChangeBank = this.handleChangeBank.bind(this);
     }
     handleChange() {
         console.log('input change');
     }
 
-		handleChangeBank(value) {
-				// console.log('value', value);
-				this.setState({
-				bank: value
-			});
-		}
+        handleChangeBank(value) {
+                // console.log('value', value);
+                this.setState({
+                bank: value
+            });
+        }
     render() {
         const startTime = moment('11:11:11', 'HH:mm:ss');
                 const endTime = moment('11:11:11', 'HH:mm:ss');
@@ -53,13 +60,13 @@ export default class Homepage extends Component {
         ];
         return (
             <div style={{height: 800}}>
-				            <BankSelect
-						            style={{ width: 200 }}
-						            placeholder="请选择银行"
-						            optionFilterProp="children"
-						            value = {this.state.bank}
-						            onChange={this.handleChangeBank}
-				            />
+                            <BankSelect
+                                    style={{ width: 200 }}
+                                    placeholder="请选择银行"
+                                    optionFilterProp="children"
+                                    value = {this.state.bank}
+                                    onChange={this.handleChangeBank}
+                            />
                 <Crumb
                     data = {[{title: '骑士管理', link: 'www.baidu.com'},{title: '装备管理'}]}
                 />
@@ -103,6 +110,7 @@ export default class Homepage extends Component {
                 ordered={true} 
                 onChange={handleChange}
                 />
+                <TeamTypeRadio onChange={this.radioChange} test={this.onTest}/>
             </div>
             </div>
         )
