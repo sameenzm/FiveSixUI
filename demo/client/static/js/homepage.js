@@ -1,6 +1,6 @@
 import React, { Component, PropTypes} from 'react';
 import { BankSelect, Crumb, ImageModal, SearchPeriod, Show, TimeRangePicker,
-    Select,TagsField,Tag,UserPassWordInput,AsynDownloadBtn,DownloadList } from 'fivesix';
+    Select,TagsField,Tag,UserPassWordInput,AsynDownloadBtn,DownloadList,TeamTypeRadio } from 'fivesix';
 import { Button,TimePicker } from 'antd';
 import moment from 'moment';
 
@@ -22,6 +22,13 @@ export default class Homepage extends Component {
                 value: value,
             });
         }
+        this.radioChange = (e) => {
+            console.log(e);
+        }
+        this.onTest = (e)=>{
+            console.log('test');
+            console.log(e);
+        };
         this.changeDate = (obj) => {
             console.log(obj);
             this.setState({
@@ -103,6 +110,7 @@ export default class Homepage extends Component {
                 ordered={true} 
                 onChange={handleChange}
                 />
+                <TeamTypeRadio onChange={this.radioChange} test={this.onTest}/>
             </div>
             </div>
         )

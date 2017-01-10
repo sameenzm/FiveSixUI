@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
-
-import { BankSelect } from '../../../components';
+import BankSelect from '../../../components/business/BankSelect';
 
 describe('BankSelect', () => {
 	it('Test props: value', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 
-import { UserPassWordInput } from '../../../components';
+import UserPassWordInput from '../../../components/business/UserPassWordInput';
 
 describe('UserPassWorldInput', () => {
     it('Test props: value', () => {

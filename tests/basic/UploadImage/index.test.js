@@ -3,7 +3,7 @@ import { render, shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { UploadImage } from '../../../components';
+import UploadImage from '../../../components/basic/UploadImage';
 
 describe('UploadImage', () => {
     // 基础测试

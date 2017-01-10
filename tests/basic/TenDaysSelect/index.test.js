@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
 
-import { TenDaysSelect } from '../../../components';
+import TenDaysSelect from '../../../components/basic/TenDaysSelect';
 import { DISABLED_SELECT_CLASS } from '../../constants';
 
 describe('TenDaysSelect', () => {

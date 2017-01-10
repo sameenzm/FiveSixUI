@@ -3,8 +3,7 @@ import { render, shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
-
-import { Crumb } from '../../../components';
+import Crumb from '../../../components/basic/Crumb';
 
 describe('Crumb', () => {
     // 基础测试
@@ -23,4 +22,3 @@ describe('Crumb', () => {
         expect(wrapper.find('.ant-breadcrumb-link').at(1).text()).to.equal("装备管理");
     });
 });
-
