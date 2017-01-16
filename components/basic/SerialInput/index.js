@@ -12,12 +12,12 @@ import './styles.less';
 /**
  * 组件属性申明
  *
- * @property {array}          defaultValue     默认值                  默认值: []
- * @property {array}          value            当前值                  默认值: []
- * @property {number|string}  min              最小值                  默认值：-Infinity
- * @property {number|string}  max              最大值                  默认值：Infinity
- * @property {number}         step             步数                    默认值：1
- * @property {bool}           disabled         是否可编辑              默认值：false
+ * @property {array}          defaultValue     默认值                  defaultValue:[]
+ * @property {array}          value            当前值                  defaultValue:[]
+ * @property {number|string}  min              最小值                  defaultValue:-Infinity
+ * @property {number|string}  max              最大值                  defaultValue:Infinity
+ * @property {number}         step             步数                    defaultValue:1
+ * @property {bool}           disabled         是否可编辑              defaultValue:false
  * @property {func}           onChange         变化时回调函数
  */
 const propTypes = {
