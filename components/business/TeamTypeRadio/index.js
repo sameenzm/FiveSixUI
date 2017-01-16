@@ -12,7 +12,7 @@ import { Radio } from 'antd';
 
 /**
  * 组件属性申明
- * @property {object} defaultValue 默认值
+ * @property {object} defaultValue 默认值 defaultValue: {0}
  * @property {function} onChange
  */
 const propTypes = {
