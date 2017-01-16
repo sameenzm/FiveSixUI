@@ -23,14 +23,14 @@ const transferDate = utils.transferDate;
 /**
  * 组件属性申明
  *
- * @property {array}         options          可选的类型              默认值：DEFAULT_OPTIONS
- * @property {string}        defaultType      默认选中类型            默认值：使用options属性的第一个值
- * @property {string|array}  customizeDefault 自定义默认选中的时间段  默认值：使用options属性的第一个值
- * @property {string|number} dateFormat       用于请求的日期格式      默认值：'YYYY-MM-DD'
- * @property {number}        maxInterval      最长时间间隔            默认值：35
- * @property {bool}          removeDateTool   是否需要去除日期工具    默认值：false
- * @property {bool}          allowRangeClear  日期区间选择是否显示清除按钮  默认值：false
- * @property {bool}          disabled         是否可编辑              默认值：false
+ * @property {array}         options          可选的类型              defaultValue:DEFAULT_OPTIONS
+ * @property {string}        defaultType      默认选中类型            defaultValue:使用options属性的第一个值
+ * @property {string|array}  customizeDefault 自定义默认选中的时间段   defaultValue:使用options属性的第一个值
+ * @property {string|number} dateFormat       用于请求的日期格式       defaultValue:'YYYY-MM-DD'
+ * @property {number}        maxInterval      最长时间间隔            defaultValue:35
+ * @property {bool}          removeDateTool   是否需要去除日期工具     defaultValue:false
+ * @property {bool}          allowRangeClear  日期区间选择是否显示清除按钮  defaultValue:false
+ * @property {bool}          disabled         是否可编辑              defaultValue:false
  * @property {func}          onChange         变化时回调函数
  * @property {func}          disabledDate     不可选的日期
  */
