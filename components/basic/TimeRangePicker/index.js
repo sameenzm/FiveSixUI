@@ -13,12 +13,13 @@ import './styles.less';
 
 /**
  * 组件属性申明
- * @property {array} value 起止时间 {strat:Moment, end:Moment}
- * @property {string} separator 起止时间间隔号，默认为'至'
- * @property {function} onChange 时间change事件 ［一个参数，为object］
- * @property {bool} 是否是按序的 默认为true
- * @property {object} startConfig antd TimePicker的扩展属性支持
- * @property {object} endConfig antd TimePicker的扩展属性支持
+ *
+ * @property {array} value 起止时间{strat:Moment, end:Moment}
+ * @property {string} separator 起止时间间隔号 defaultValue: '至'
+ * @property {function} onChange 时间change事件
+ * @property {bool} ordered 是否是按序的 defaultValue: true
+ * @property {object} startConfig TimePicker组件的扩展属性支持
+ * @property {object} endConfig TimePicker组件的扩展属性支持
  */
 const propTypes = {
   value: PropTypes.array,
