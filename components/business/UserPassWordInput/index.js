@@ -15,10 +15,9 @@ import { PASSWORD_MASK } from '../../constant';
 
 
 /**
- * 组件属性申明
- * @property {string} value 默认值
- * @property {function} onChange input change事件
- * @property {object} others antd Input的扩展属性支持
+ * 组件属性说明
+ * @property {string} value 初始值 defaultValue: '******'
+ * @property {function} onChange change事件 defaultValue: 'Function'
  */
 const propTypes = {
   value: PropTypes.string,
