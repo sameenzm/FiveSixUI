@@ -33,10 +33,10 @@ const DEFAULT_CONFIG = {
 /**
  * 组件属性申明
  *
- * @property {string}        name              组件名                 默认值：''
- * @property {string}        value             组件值                 默认值：''
- * @property {bool}          disabled          是否可编辑             默认值：false
- * @property {string}        uploadImgUrl      上传图片url            默认值：''
+ * @property {string}        name              组件名                defaultValue:''
+ * @property {string}        value             组件值                defaultValue:''
+ * @property {bool}          disabled          是否可编辑            defaultValue:false
+ * @property {string}        uploadImgUrl      上传图片url           defaultValue:''
  * @property {object}        config            summernote配置
  * @property {func}          onChange          变化时回调函数
  */

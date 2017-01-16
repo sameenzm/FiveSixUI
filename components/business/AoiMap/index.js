@@ -14,24 +14,24 @@ import './style.less';
 /**
  * 组件属性申明
  *
- * @property {string} className    组件样式类名    默认值：''
- * @property {object} mapStyle     地图样式        默认值：{ height: '450px',  width: '100%' }
- * @property {object} center       地图定位中心    默认值：'北京市'
- * @property {array}  points       多地点数组      默认值：[]
- * @property {array}  regions      多区域数组      默认值：[]
- * @property {array}  backRegions  背景多区域数组  默认值：[]
- * @property {array}  regionTools  区域工具按钮组  默认值：['add', 'clear', 'reset', 'delete']
- * @property {array}  pointTools   地点工具按钮组  默认值：['add', 'clear', 'reset', 'delete']
- * @property {array}  commonTools  通用工具按钮组  默认值：['save', 'viewAll']
- * @property {bool}   enableEditRegions 能否编辑区域       默认值：true
- * @property {bool}   enableEditPoints  能否编辑点       默认值：true
- * @property {number|string}   maxPointsLen   标记点的最大长度       默认值：Infinity
- * @property {number|string}   maxRegionsLen  区域的最大长度         默认值：Infinity
- * @property {func}   onSave        点击保存按钮之后的回调
- * @property {func}   onDeleteRegions      点击删除按钮的区域之后的回调
- * @property {func}   onDeletePoints      点击删除按钮的标记点之后的回调
- * @property {func}   onDeleteAll      点击删除按钮的全部之后的回调
- * @property {func}   onChange      组件值更改之后的回调
+ * @property {string} className               组件样式类名                        defaultValue:''
+ * @property {object} mapStyle                地图样式                            defaultValue:{ height: '450px',  width: '100%' }
+ * @property {object} center                  地图定位中心                        defaultValue:'北京市'
+ * @property {array}  points                  多地点数组                          defaultValue:[]
+ * @property {array}  regions                 多区域数组                          defaultValue:[]
+ * @property {array}  backRegions             背景多区域数组                      defaultValue:[]
+ * @property {array}  regionTools             区域工具按钮组                      defaultValue:['add', 'clear', 'reset', 'delete']
+ * @property {array}  pointTools              地点工具按钮组                      defaultValue:['add', 'clear', 'reset', 'delete']
+ * @property {array}  commonTools             通用工具按钮组                      defaultValue:['save', 'viewAll']
+ * @property {bool}   enableEditRegions       能否编辑区域                        defaultValue:true
+ * @property {bool}   enableEditPoints        能否编辑点                          defaultValue:true
+ * @property {number|string}   maxPointsLen   标记点的最大长度                    defaultValue:Infinity
+ * @property {number|string}   maxRegionsLen  区域的最大长度                      defaultValue:Infinity
+ * @property {func}   onSave                  点击保存按钮之后的回调
+ * @property {func}   onDeleteRegions         点击删除按钮的区域之后的回调
+ * @property {func}   onDeletePoints          点击删除按钮的标记点之后的回调
+ * @property {func}   onDeleteAll             点击删除按钮的全部之后的回调
+ * @property {func}   onChange                组件值更改之后的回调
  */
 const propTypes = {
   className: PropTypes.string,

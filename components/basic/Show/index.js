@@ -12,10 +12,10 @@ import './styles.less';
 /**
  * 组件属性申明
  *
- * @property {bool}    isShow   是否显示，默认值为true
- * @property {bool}    isDelDom 是否消除dom子节点，默认false
- * @property {bool}    isInline 是否是行内元素，默认为false
- * @property {element} children 子节点，必需
+ * @property {bool}    isShow   是否显示           defaultValue:true
+ * @property {bool}    isDelDom 是否消除dom子节点  defaultValue:false
+ * @property {bool}    isInline 是否是行内元素     defaultValue:false
+ * @property {element} children 子节点（必填）
  */
 const propTypes = {
   isShow: PropTypes.bool,
