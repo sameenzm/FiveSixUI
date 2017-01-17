@@ -13,9 +13,9 @@ import './styles.less';
  * 组件属性申明
  *
  * @property {string} src 图片跳转链接
- * @property {bool} show 是否显示组件， default = false
- * @property {func} onClose 关闭查看器组件事件后钩子，会传入图片src值
- * @property {func} onOpen 打开查看器组件事件后钩子，会传入图片src值
+ * @property {bool} show 是否显示组件 defaultValue: false
+ * @property {function} onClose 关闭查看器组件事件后钩子，会传入图片src值
+ * @property {function} onOpen 打开查看器组件事件后钩子，会传入图片src值
  */
 const propTypes = {
   children: PropTypes.arrayOf(PropTypes.element),

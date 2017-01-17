@@ -15,7 +15,7 @@ import './styles.less';
  * 组件属性申明
  *
  * @property {array} data 下载列表中的记录
- * @property {bool} show 组件是否可见
+ * @property {bool} show 组件是否可见 defaultValue: true
  * @property {function} onCancel 组件不可见事件
  */
 const propTypes = {
