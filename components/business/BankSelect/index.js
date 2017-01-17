@@ -13,8 +13,8 @@ const Option = Select.Option;
 
 /**
  * 组件属性申明
- * @property {string} value
- * @property {function} onChange
+ * @property {string} value 指定当前选中的条目
+ * @property {function} onChange 选中 option，或 input 的 value 变化时，调用此函数
  */
 const propTypes = {
   value: PropTypes.string,
@@ -30,10 +30,6 @@ export default class BankSelect extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      isSelectAll: false,
-      selected: '招商银行',
-    };
     this.createOptionsFromArray = this.createOptionsFromArray.bind(this);
     this.getOptions = this.getOptions.bind(this);
   }

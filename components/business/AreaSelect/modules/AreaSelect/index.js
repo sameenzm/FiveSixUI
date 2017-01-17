@@ -16,13 +16,13 @@ import _ from 'lodash';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import lazyCache from 'react-lazy-cache';
 /**
- * 组件属性申明
+ * 组件属性说明
  *
- * @property {function} onChange
- * @property {object} value
- * @property {string} type
- * @property {array} data
- * @property {object} config
+ * @property {function} onChange change事件（必填）
+ * @property {object} value 值 （必填）
+ * @property {string} type 级联方向 defaultValue: "forward"
+ * @property {array} data 数据项 （必填）
+ * @property {object} config 配置项 （必填），控制物流方、城市、商圈、合作方各自的配置
  */
 const propTypes = {
   config: PropTypes.object,
