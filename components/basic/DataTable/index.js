@@ -6,26 +6,13 @@ import ReactDOM from 'react-dom';
 import './styles.less';
 
 /**
- * 表格组件
- * 模块属性申明
- * @config = {
- *  id: 'id',
- *  columns: [],
- *  data: [],
- *  filters: {},// 检索条件
- *  pagination: {
- *      paging: true,
- *      serverSide: true,//后端分页为true; 前端分页为false; 默认后端分页
- *      pageSize: 50
- *  },
- *  total: 0,// 总条目
- *  page: 0,// 当前页码，后端分页时需更新此值，这点非常重要
- *  top: 250,// 表格定位信息
- *  minHeight: 200,
- *  height: 'auto'
- * }
- * @changePage 翻页回调，只为后端翻页提供此方法，注意此时需要重新请求数据，
- *      并将数据塞入config.data，将当前页码塞入config.page
+ * 组件属性说明
+ *
+ * @property {function} changePage 服务端分页时的切换页方法（服务端分页必填）
+ * @property {object} rowSelection 列选择配置
+ * @property {object} initSortedInfo 初始排序
+ * @property {function} expandedRowRender 可展开行配置
+ * @property {object} config 配置项 （必填），配置分页器、样式、数据、表头等
  */
 /* eslint no-script-url: 0*/
 const propTypes = {
