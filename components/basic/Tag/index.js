@@ -9,11 +9,11 @@ import './styles.less';
 /**
  * 组件属性申明
  * 
- * @property {any} value 标签绑定的value值，必须
+ * @property {any} value 标签绑定的value值(必须)
  * @property {func} onClick 点击标签事件【两个参数，第一个参数为value，第二个参数为是否选中bool】
  * @property {func} onClose 关闭标签事件【一个参数，value】
- * @property {bool} selected 是否是选中状态， default = false
- * @property {bool} closable 是否可关闭， default = true
+ * @property {bool} selected 是否是选中状态 defaultValue: false
+ * @property {bool} closable 是否可关闭 default: true
  */
 const propTypes = {
   value: PropTypes.any.isRequired,
