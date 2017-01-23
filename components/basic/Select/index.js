@@ -14,6 +14,7 @@ import { findDOMNode } from 'react-dom';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import lazyCache from 'react-lazy-cache';
 import $ from 'jquery';
+import './styles.less';
 /**
  * 组件属性说明
  *

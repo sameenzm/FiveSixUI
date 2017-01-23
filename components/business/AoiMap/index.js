@@ -9,7 +9,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Button, Dropdown, Menu, Icon } from 'antd';
 import { MapCircle, getLonlat } from './mapcircle';
-import './style.less';
+import './styles.less';
 
 /**
  * 组件属性申明

@@ -8,7 +8,6 @@
  */
 import React, { PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
-import './libs/summernote.css';
 import './styles.less';
 
 require('bootstrap/js/modal.js');
