@@ -110,7 +110,7 @@
     "webpack": "~1.13.3"
   },
   "scripts": {
-    "test": "node ./node_modules/.bin/istanbul cover mocha --compilers js:babel-core/register --require ./tests/index.js --require ignore-styles \"./tests/**/*.test.js\"",
+    "test": "mocha --compilers js:babel-core/register --require ./tests/index.js --require ignore-styles \"./tests/**/*.test.js\"",
     "coverage": "cat ./coverage/lcov.info | coveralls",
     "lint": "npm run eslint && npm run lesshint",
     "eslint": "eslint components/**.js",
