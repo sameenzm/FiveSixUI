@@ -1,3 +1,92 @@
+.wl-aoimap-con {
+  border: 2px solid #ccc;
+}
+
+.wl-aoimap-con .wl-aoimap-toolbar {
+  padding: 10px 15px 10px 10px;
+  border-bottom: 1px solid #ccc;
+  background: #fcfcfc;
+}
+
+.wl-aoimap-con .wl-aoimap-toolbar .ant-btn-ghost {
+  background: #fff;
+}
+
+.wl-aoimap-con .wl-aoimap-toolbar button {
+  margin: 0 5px 5px;
+  width: 80px;
+}
+
+.wl-aoimap-con .wl-aoimap-toolbar button i:first-of-type {
+  font-size: 30px;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.wl-aoimap-con .wl-aoimap-toolbar button span {
+  margin-left: 0;
+}
+
+#mapCon {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  font-family: "微软雅黑";
+}
+
+.downloadList-modal li {
+  width: 100%;
+  height: 50px;
+  list-style: none;
+  border-radius: 5px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  margin: 5px auto;
+}
+
+.downloadList-modal li dl {
+  padding: 0 20px;
+}
+
+.downloadList-modal li dl dt {
+  width: 50%;
+  float: left;
+  line-height: 50px;
+}
+
+.downloadList-modal li dl dd.downloadList-status {
+  width: 25%;
+  float: left;
+  line-height: 50px;
+}
+
+.downloadList-modal li dl dd.downloadList-operate {
+  float: left;
+  width: 15%;
+  line-height: 50px;
+  text-align: right;
+}
+
+.downloadList-modal .downloadList-item-finish {
+  background: #f2fffc;
+}
+
+.downloadList-modal .downloadList-item-error {
+  background: #fff2f8;
+}
+
+.downloadList-modal .downloadList-no-download-record-panel {
+  text-align: center;
+  font-size: 16px;
+  margin: 20px 0;
+  color: #ccc;
+}
+
+.ant-menu .hidden {
+  display: none;
+}
+
 .toolbar-con {
   position: relative;
 }
@@ -56,10 +145,6 @@
 
 .toolbar-con ul {
   margin-bottom: 0;
-}
-
-.ant-menu .hidden {
-  display: none;
 }
 
 .wl-crumb .ant-breadcrumb {
@@ -994,91 +1079,6 @@
 
 .wl-timerangepicker-wrapper .wl-timerangepicker-end-time {
   margin-right: 10px;
-}
-
-.wl-aoimap-con {
-  border: 2px solid #ccc;
-}
-
-.wl-aoimap-con .wl-aoimap-toolbar {
-  padding: 10px 15px 10px 10px;
-  border-bottom: 1px solid #ccc;
-  background: #fcfcfc;
-}
-
-.wl-aoimap-con .wl-aoimap-toolbar .ant-btn-ghost {
-  background: #fff;
-}
-
-.wl-aoimap-con .wl-aoimap-toolbar button {
-  margin: 0 5px 5px;
-  width: 80px;
-}
-
-.wl-aoimap-con .wl-aoimap-toolbar button i:first-of-type {
-  font-size: 30px;
-  display: block;
-  margin-bottom: 3px;
-}
-
-.wl-aoimap-con .wl-aoimap-toolbar button span {
-  margin-left: 0;
-}
-
-#mapCon {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  margin: 0;
-  font-family: "微软雅黑";
-}
-
-.downloadList-modal li {
-  width: 100%;
-  height: 50px;
-  list-style: none;
-  border-radius: 5px;
-  background-color: #eee;
-  border: 1px solid #ccc;
-  margin: 5px auto;
-}
-
-.downloadList-modal li dl {
-  padding: 0 20px;
-}
-
-.downloadList-modal li dl dt {
-  width: 50%;
-  float: left;
-  line-height: 50px;
-}
-
-.downloadList-modal li dl dd.downloadList-status {
-  width: 25%;
-  float: left;
-  line-height: 50px;
-}
-
-.downloadList-modal li dl dd.downloadList-operate {
-  float: left;
-  width: 15%;
-  line-height: 50px;
-  text-align: right;
-}
-
-.downloadList-modal .downloadList-item-finish {
-  background: #f2fffc;
-}
-
-.downloadList-modal .downloadList-item-error {
-  background: #fff2f8;
-}
-
-.downloadList-modal .downloadList-no-download-record-panel {
-  text-align: center;
-  font-size: 16px;
-  margin: 20px 0;
-  color: #ccc;
 }
 
 label {

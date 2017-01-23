@@ -1,6 +1,7 @@
 var gulp = require('gulp');
-var less = require('gulp-less');
 var path = require('path');
+
+var less = require('gulp-less');
 var LessAutoprefix = require('less-plugin-autoprefix');
 var autoprefix = new LessAutoprefix({ browsers: ['last 2 versions'] });
 
