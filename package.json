@@ -50,6 +50,7 @@
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
     "babel-eslint": "^7.1.1",
+    "babel-istanbul": "^0.12.1",
     "babel-loader": "^6.2.8",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-import": "^1.1.0",
@@ -110,7 +111,7 @@
     "webpack": "~1.13.3"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --require ./tests/index.js --require ignore-styles \"./tests/**/*.test.js\"",
+    "test": "babel-node ./node_modules/.bin/babel-istanbul cover _mocha",
     "coverage": "cat ./coverage/lcov.info | coveralls",
     "lint": "npm run eslint && npm run lesshint",
     "eslint": "eslint components/**.js",
