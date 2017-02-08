@@ -376,7 +376,8 @@ class Select extends Component {
       if (v.length > 9) {
         const d = $('.computeFontWidth');
         d.html(v);
-        return d.width();
+        const half = v.replace(/\s/g,"1").match(/[a-zA-Z0-9]/g).length;
+        return d.width() || ((v.length - half) * 2 + half) * 6;
       }
       return 0;
     };
@@ -521,9 +522,8 @@ class Select extends Component {
         </div>
         <div
           style={{ top: '0px', visibility: 'hidden', fontSize: '12px', display: 'block', position: 'absolute' }}
-          className="computeFontWidth"
-        />
-      </div >
+          className="computeFontWidth"></div>
+      </div>
     );
   }
 }
