@@ -112,7 +112,7 @@
   },
   "scripts": {
     "test": "babel-node ./node_modules/.bin/babel-istanbul cover _mocha",
-    "test-win": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha",
+    "test-win": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha \"./test/basic/TimeRangePicker/index.test.js\"",
     "coverage": "cat ./coverage/lcov.info | coveralls",
     "lint": "npm run eslint && npm run lesshint",
     "eslint": "eslint components/**.js",
