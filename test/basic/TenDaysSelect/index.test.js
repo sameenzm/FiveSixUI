@@ -40,7 +40,7 @@ describe('TenDaysSelect', () => {
         expect(wrapper.find('[disabled]')).to.have.length(1);
         expect(wrapper.find(DISABLED_SELECT_CLASS)).to.have.length(1);
     });
-    it('Test prop: onChange', () => {
+    it('Test prop: onChange1', () => {
         const value = {
             month: '2013-11', 
             month_type: '1'
@@ -57,10 +57,23 @@ describe('TenDaysSelect', () => {
         wrapper.find('.ant-calendar-picker-input').simulate('click');
         $('.ant-calendar-month-panel-cell').eq(0).click();
         expect(onDateChange.calledWith({month: '2013-01', month_type: '1'})).to.be.true;
+    });
+    it('Test prop: onChange2', () => {
+        const value = {
+            month: '2013-11', 
+            month_type: '1'
+        };
+        const onDateChange = sinon.spy();
+        const wrapper = mount(
+            <TenDaysSelect 
+                onChange = { onDateChange }
+                value = { value }
+            />
+        );
         // 选择旬
         wrapper.find('.ant-select-selection-selected-value').simulate('click');
         $('.ant-select-dropdown-menu-item').eq(1).click();
-        expect(onDateChange.calledWith({month: '2013-01', month_type: '2'})).to.be.true;
+        expect(onDateChange.calledWith({month: '2013-11', month_type: '2'})).to.be.true;
     });
     it('Test prop: startMoment&endMoment', () => {
         const value = {
