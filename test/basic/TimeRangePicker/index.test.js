@@ -46,7 +46,7 @@ describe('TimeRangePicker', () => {
         const endTime = moment('10:10:10', 'HH:mm:ss');
         let startCurrent = '';
         const handleChange = (obj)=>{
-            //startCurrent = obj.start;
+            startCurrent = obj.start;
         };
         const wrapper = mount(
             <TimeRangePicker 
@@ -60,8 +60,8 @@ describe('TimeRangePicker', () => {
         $('.ant-time-picker-panel-select').eq(0).find('li:eq(5)').click();
         $('.ant-time-picker-panel-select').eq(1).find('li:eq(5)').click();
         $('.ant-time-picker-panel-select').eq(2).find('li:eq(5)').click();
-        // wrapper.setProps({value: {start: startCurrent, end: endTime}});
-        // expect(wrapper.find('.ant-time-picker-input').get(0).value).to.eql('05:05:05');
+        wrapper.setProps({value: {start: startCurrent, end: endTime}});
+        expect(wrapper.find('.ant-time-picker-input').get(0).value).to.eql('05:05:05');
         $('.ant-time-picker-panel-select').remove();
     });
     // onChange
@@ -70,7 +70,7 @@ describe('TimeRangePicker', () => {
         const endTime = moment('10:10:10', 'HH:mm:ss');
         let endCurrent = '';
         const handleChange = (obj)=>{
-            // endCurrent = obj.end;
+            endCurrent = obj.end;
         };
         const wrapper = mount(
             <TimeRangePicker 
@@ -84,8 +84,8 @@ describe('TimeRangePicker', () => {
         $('.ant-time-picker-panel-select').eq(0).find('li:eq(6)').click();
         $('.ant-time-picker-panel-select').eq(1).find('li:eq(6)').click();
         $('.ant-time-picker-panel-select').eq(2).find('li:eq(6)').click();
-        // wrapper.setProps({value: {start: startTime, end: endCurrent}});
-        // expect(wrapper.find('.ant-time-picker-input').get(1).value).to.eql('06:06:06');
+        wrapper.setProps({value: {start: startTime, end: endCurrent}});
+        expect(wrapper.find('.ant-time-picker-input').get(1).value).to.eql('06:06:06');
         $('.ant-time-picker-panel-select').remove();
     });
     // ordered&end
@@ -100,17 +100,17 @@ describe('TimeRangePicker', () => {
         );
         // 结束时间
         wrapper.find('.wl-timerangepicker-end-time').simulate('click');
-        /*for(let i=0;i<5;i++){
+        for(let i=0;i<5;i++){
             expect($('.ant-time-picker-panel-select').eq(0).find('li').eq(i).attr('class')).to.eq('ant-time-picker-panel-select-option-disabled');
-        }*/
+        }
         $('.ant-time-picker-panel-select').eq(0).find('li').eq(5).click();
-        /*for(let i=0;i<5;i++){
+        for(let i=0;i<5;i++){
             expect($('.ant-time-picker-panel-select').eq(1).find('li').eq(i).attr('class')).to.eq('ant-time-picker-panel-select-option-disabled');
-        }*/
+        }
         $('.ant-time-picker-panel-select').eq(1).find('li').eq(5).click();
-        /*for(let i=0;i<5;i++){
+        for(let i=0;i<5;i++){
             expect($('.ant-time-picker-panel-select').eq(2).find('li').eq(i).attr('class')).to.eq('ant-time-picker-panel-select-option-disabled');
-        }*/
+        }
         $('.ant-time-picker-panel-select').remove();
     });
     // ordered&startTime
@@ -125,9 +125,9 @@ describe('TimeRangePicker', () => {
         );
         wrapper.find('.wl-timerangepicker-start-time').simulate('click');
         // 开始时间
-        // expect($('.ant-time-picker-panel-select').eq(0).find('li').eq(11).attr('class')).to.eq('ant-time-picker-panel-select-option-disabled');
-        // expect($('.ant-time-picker-panel-select').eq(1).find('li').eq(11).attr('class')).to.eq('ant-time-picker-panel-select-option-disabled');
-        // expect($('.ant-time-picker-panel-select').eq(2).find('li').eq(11).attr('class')).to.eq('ant-time-picker-panel-select-option-disabled');
+        expect($('.ant-time-picker-panel-select').eq(0).find('li').eq(11).attr('class')).to.eq('ant-time-picker-panel-select-option-disabled');
+        expect($('.ant-time-picker-panel-select').eq(1).find('li').eq(11).attr('class')).to.eq('ant-time-picker-panel-select-option-disabled');
+        expect($('.ant-time-picker-panel-select').eq(2).find('li').eq(11).attr('class')).to.eq('ant-time-picker-panel-select-option-disabled');
         $('.ant-time-picker-panel-select').remove();
     });
     // startConfig
