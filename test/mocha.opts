@@ -2,3 +2,4 @@
  --require ./test/index.js 
  --require ignore-styles 
  --recursive
+ --timeout 30000

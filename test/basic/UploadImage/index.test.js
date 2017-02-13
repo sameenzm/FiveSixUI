@@ -33,7 +33,7 @@ describe('UploadImage', () => {
         expect(wrapper.find('.wl-uploadimage-btn').node.props.disabled).to.equal(true);
     });
 
-    it('calls componentDidMount && Test prop: showSize', () => {
+    /*it('calls componentDidMount && Test prop: showSize', () => {
         sinon.spy(UploadImage.prototype, "componentDidMount");
         const wrapper = mount( <UploadImage
                                     showSize        = {true}
@@ -46,7 +46,7 @@ describe('UploadImage', () => {
         expect(UploadImage.prototype.componentDidMount).to.have.property('callCount', 1);
         UploadImage.prototype.componentDidMount.restore();
     
-    });
+    });*/
     //
     // it('Test prop: onChange', () => {
     //     const onUploadPicture = sinon.spy();

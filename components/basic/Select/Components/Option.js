@@ -6,6 +6,7 @@
 /* eslint import/no-unresolved: 0*/
 import React, { Component, PropTypes } from 'react';
 import LazyLoad from 'react-lazy-load';
+import $ from 'jquery';
 
 /**
  * 组件属性申明
@@ -48,10 +49,11 @@ class Option extends Component {
          * 鼠标移入事件，返回对应的位置信息及text impure
          */
     this.handleMouseEnter = (e) => {
+      // $(e.target).position().top + 33,
       if (e.target.clientWidth < e.target.scrollWidth) {
         this.props.onMouseEnter && this.props.onMouseEnter({
           style: {
-            top: $(e.target).position().top + 33,
+            top: e.target.offsetTop + 33,
             left: 150,
           },
           text: this.props.label,

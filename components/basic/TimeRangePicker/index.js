@@ -22,7 +22,7 @@ import './styles.less';
  * @property {object} endConfig TimePicker组件的扩展属性支持
  */
 const propTypes = {
-  value: PropTypes.array,
+  value: PropTypes.object,
   separator: PropTypes.string,
   onChange: PropTypes.func,
   ordered: PropTypes.bool,
@@ -50,48 +50,50 @@ class TimeRangePicker extends React.Component {
 
   disabledHours(min, max) {
     const hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
-
+    let result = [];
     if (min) {
       const minHour = min.hour();
-      return hours.splice(0, minHour);
+      result = hours.splice(0, minHour);
     }
     if (max) {
       const maxHour = max.hour();
-      return hours.splice(maxHour + 1);
+      result = hours.splice(maxHour + 1);
     }
-    return [];
+    return result;
   }
 
   disabledMinutes(hour, min, max) {
     const minutes = Array.from({ length: 60 }, (v, k) => k);
+    let result = [];
     if (min) {
       const minHour = min.hour();
       const minMinute = min.minute();
-      return minHour === hour ? minutes.splice(0, minMinute) : [];
+      result = minHour === hour ? minutes.splice(0, minMinute) : [];
     }
     if (max) {
       const maxHour = max.hour();
       const maxMinute = max.minute();
-      return maxHour === hour ? minutes.splice(maxMinute + 1) : [];
+      result = maxHour === hour ? minutes.splice(maxMinute + 1) : [];
     }
-    return [];
+    return result;
   }
 
   disabledSeconds(hour, minute, min, max) {
     const second = Array.from({ length: 60 }, (v, k) => k);
+    let result = [];
     if (min) {
       const minHour = min.hour();
       const minMinute = min.minute();
       const minSecond = min.second();
-      return (minHour === hour && minMinute === minute) ? second.splice(0, minSecond) : [];
+      result = (minHour === hour && minMinute === minute) ? second.splice(0, minSecond) : [];
     }
     if (max) {
       const maxHour = max.hour();
       const maxMinute = max.minute();
       const maxSecond = max.second();
-      return (maxHour === hour && maxMinute === minute) ? second.splice(maxSecond + 1) : [];
+      result = (maxHour === hour && maxMinute === minute) ? second.splice(maxSecond + 1) : [];
     }
-    return [];
+    return result;
   }
 
   render() {
