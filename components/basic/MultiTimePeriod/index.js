@@ -224,7 +224,7 @@ export default class MultiTimePeriod extends React.Component {
                         {
                             this.props.price ?
                             <Select
-                                style={{ width: 80,marginLeft: 50,marginBottom: 3 }}
+                                style={{ width: 80,marginLeft: 25,marginBottom: 3 }}
                                 size = "large"
                                 value = { time.price != "" && time.price >= 0 && time.price.slice(0, 1) != '+' ? '+' + time.price : time.price }
                                 onChange = {this.onPriceChange.bind(this, index)}
@@ -268,9 +268,32 @@ export default class MultiTimePeriod extends React.Component {
                                     onClick = {this.removePeriod.bind(this, index)}>
                                 </Button>
                         }
+                        {
+                            index === 0 && (this.props.region || this.props.price) && timeArr.length == 1 ?
+                                <Button
+                                    className = "period-button"
+                                    type = "primary"
+                                    size = "small"
+                                    shape = "circle"
+                                    icon = "minus"
+                                    onClick = {this.removePeriod.bind(this, index)}>
+                                </Button> :
+                                ''
+                        }
                     </div>
                 )}
-			</div>
+                {!timeArr.length ?
+                    <Button
+                        className = "period-button"
+                        type = "primary"
+                        size = "small"
+                        shape = "circle"
+                        icon = "plus"
+                        onClick = {this.addPeriod.bind(this)}>
+                    </Button> :
+                    ''
+                }
+            </div>
         );
     }
 }

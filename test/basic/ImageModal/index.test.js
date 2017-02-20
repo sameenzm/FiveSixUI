@@ -3,60 +3,58 @@ import { render,shallow,mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import moment from 'moment';
+import $ from 'jquery';
 
 import ImageModal from '../../../components/basic/ImageModal';
 
 describe('ImageModal', () => {
     // 基础测试
     it('Test prop: src', () => {
-        const wrapper = mount( <ImageModal src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png' >
-            点击出图</ImageModal>
+        const wrapper = mount( <ImageModal 
+            src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png' />
         );
-        expect(wrapper.find('.wl-imagemodal-con').text()).to.equal("点击出图");
-        wrapper.find('.wl-imagemodal-con').simulate('click');
-        expect(wrapper.state('show')).to.equal(true);
-    });
-    it('Test prop: children', () => {
-        const wrapper = mount( <ImageModal>
-                    <img src="http://yizhan.baidu.com/static/logisticsfrontend/images/sound_d165ad8.png" />
-                </ImageModal>
-        );
-        // expect(wrapper.find('img[src="http://yizhan.baidu.com/static/logisticsfrontend/images/sound_d165ad8.png"]').to.have.length(1);
-        wrapper.find('.wl-imagemodal-con').simulate('click');
-        expect(wrapper.state('show')).to.equal(true);
+        wrapper.setProps({
+            show: true
+        });
+        expect(wrapper.prop('show')).to.equal(true);
+        wrapper.setProps({
+            show: false
+        });
     });
     it('Test prop: onClose', () => {
         const onClose = sinon.spy();
-        const wrapper = mount( <ImageModal src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png'
-            onClose = {
-                onClose
-            } >
-            点击出图 </ImageModal>
+        const wrapper = mount( 
+            <ImageModal 
+            src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png'
+            onClose = {onClose} />
         );
-        wrapper.setState({
+        wrapper.setProps({
             show: true
         });
-        wrapper.setState({
-            show: false
-        });
+        $('.ant-modal-close-x').click();
+
         // expect(onClose).to.have.property('callCount', 1);
     });
     it('Test circle: onOpen', () => {
         const onOpen = sinon.spy();
-        const wrapper = mount( <ImageModal src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png'
+        const wrapper = mount( 
+            <ImageModal 
+            src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png'
             onOpen = {
                 onOpen
-            } >
-            点击出图 </ImageModal>
+            } />
         );
-        wrapper.find('.wl-imagemodal-con').simulate('click');
+        wrapper.setProps({
+            show: true
+        });
         expect(onOpen).to.have.property('callCount', 1);
     });
     it('Test 缩小', () => {
-        const wrapper = mount( <ImageModal src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png' >
-            点击出图 </ImageModal>
+        const wrapper = mount( 
+            <ImageModal 
+            src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png' />
         );
-        wrapper.setState({
+        wrapper.setProps({
             show: true,
         });
         // 缩小
@@ -65,10 +63,9 @@ describe('ImageModal', () => {
         expect(wrapper.state('deg')).to.equal(0);
     });
     it('Test 放大&缩小', () => {
-        const wrapper = mount( <ImageModal src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png' >
-            点击出图 </ImageModal>
+        const wrapper = mount( <ImageModal src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png' />
         );
-        wrapper.setState({
+        wrapper.setProps({
             show: true,
         });
         expect(wrapper.state('width')).to.equal(300);
@@ -102,10 +99,9 @@ describe('ImageModal', () => {
         expect(wrapper.state('width')).to.equal(300*1.2*1.2*1.2*1.2*1.2*1.2*1.2*0.8);
     });
     it('Test 逆时针', () => {
-        const wrapper = mount( <ImageModal src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png' >
-            点击出图 </ImageModal>
+        const wrapper = mount( <ImageModal src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png' />
         );
-        wrapper.setState({
+        wrapper.setProps({
             show: true,
         });
         // 逆时针
@@ -122,10 +118,9 @@ describe('ImageModal', () => {
         expect(wrapper.state('deg')).to.equal(0);
     });
     it('Test 顺时针', () => {
-        const wrapper = mount( <ImageModal src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png' >
-            点击出图 </ImageModal>
+        const wrapper = mount( <ImageModal src = 'http://yizhan.baidu.com/static/logisticsfrontend/images/download_195f873.png' />
         );
-        wrapper.setState({
+        wrapper.setProps({
             show: true,
         });
         // 顺时针
