@@ -141,11 +141,12 @@ export default class SearchPeriod extends React.Component {
     compValue[PARAMS_MAP[0]] = formatRange[0];
     compValue[PARAMS_MAP[1]] = formatRange[1];
 
-    if (removedDates) {
+    if (removedDates.length) {
       compValue[PARAMS_MAP[2]] = removedDates;
+      return compValue;
     }
 
-    return compValue;
+    return formatRange;
   }
 
   /**
@@ -164,7 +165,7 @@ export default class SearchPeriod extends React.Component {
     let future = false;
     let now = false;
     let isdisabled = false;
-
+    let compareTime;
     const curDate = moment(current.valueOf());
     const mapping = {};
 
@@ -192,20 +193,22 @@ export default class SearchPeriod extends React.Component {
     if (past && !future) {
       // 包括今天
       if (now) {
-        isdisabled = current && curDate.isAfter(baseDate);
+        compareTime = moment().endOf('day');
       } else {
-        isdisabled = current && curDate.isSameOrAfter(baseDate);
+        compareTime = moment().startOf('day');
       }
+      isdisabled = current && (compareTime.isBefore(moment(current.valueOf())));
     }
 
     // 有未来无过去
     if (!past && future) {
       // 包括今天
       if (now) {
-        isdisabled = current && curDate.isBefore(baseDate);
+        compareTime = moment().startOf('day');
       } else {
-        isdisabled = current && curDate.isSameOrBefore(baseDate);
+        compareTime = moment().endOf('day');
       }
+      isdisabled = current && (moment(current.valueOf()).isBefore(compareTime));
     }
 
     return isdisabled;
