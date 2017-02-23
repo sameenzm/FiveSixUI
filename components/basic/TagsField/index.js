@@ -12,7 +12,7 @@ import './styles.less';
 /**
  * 组件属性申明
  *
- * @property {array} tags 包含的标签，格式示例：[{value: 1990, label: '李淳'}]
+ * @property {array} tags 包含的标签 defaultValue: [{value: 1990, label: '李淳'}]
  * @property {func} onClickTag 点击标签事件【两个参数，第一个参数为value，第二个参数为是否选中bool】
  * @property {func} onCloseTag 关闭标签事件【一个参数，value】
  * @property {any} selected 选中的标签

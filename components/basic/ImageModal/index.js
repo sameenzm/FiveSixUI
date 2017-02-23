@@ -6,19 +6,18 @@
  */
 import React, { PropTypes } from 'react';
 import { Modal, Button } from 'antd';
-import $ from 'jquery';
 import './styles.less';
 
 /**
  * 组件属性申明
  *
  * @property {string} src 图片跳转链接
- * @property {bool} show 是否显示组件， default = false
- * @property {func} onClose 关闭查看器组件事件后钩子，会传入图片src值
- * @property {func} onOpen 打开查看器组件事件后钩子，会传入图片src值
+ * @property {bool} show 是否显示组件 defaultValue: false
+ * @property {function} onClose 关闭查看器组件事件后钩子，会传入图片src值
+ * @property {function} onOpen 打开查看器组件事件后钩子，会传入图片src值
  */
 const propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element),
+  show: PropTypes.bool,
   src: PropTypes.string,
   onClose: PropTypes.func,
   onOpen: PropTypes.func,
@@ -36,15 +35,7 @@ const ZOOM_FACTOR = 0.2;
  * @extends {React.Component}
  *
  */
-export default class ImageModal extends React.Component {
-  /**
-   * 组件属性申明
-   *
-   * @type {propTypes}
-   * @memberOf ImageModal
-   */
-  static propTypes = propTypes;
-
+class ImageModal extends React.Component {
   /**
    * Creates an instance of ImageModal.
    *
@@ -55,16 +46,16 @@ export default class ImageModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false,
       width: DEFAULT_WIDTH,
       deg: 0,
     };
   }
 
-  componentDidMount() {
+  componentWillReceiveProps(nextProps) {
     const { onOpen } = this.props;
-    const $con = $('.wl-imagemodal-con');
-    $con.on('click', this.handleOpen(onOpen));
+    if (nextProps.show === true && this.props.show === false) {
+      onOpen && onOpen(this.props.src);
+    }
   }
 
   /**
@@ -120,39 +111,25 @@ export default class ImageModal extends React.Component {
   }
 
   handleClose(onClose) {
-    this.setState({
-      show: false,
-    });
     onClose && onClose(this.props.src);
   }
 
-  handleOpen(onOpen) {
-    this.setState({
-      show: true,
-    });
-    onOpen && onOpen(this.props.src);
-  }
-
   render() {
-    const { show, width, deg } = this.state;
-    const { src, onClose } = this.props;
-    const srcStr = src || (this.props.children.props ? this.props.children.props.src : '');
+    const { width, deg } = this.state;
+    const { src, onClose, show } = this.props;
     return (
       <div className="wl-imagemodal-wrapper">
-        <div className="wl-imagemodal-con" >
-          {this.props.children}
-        </div>
         { show ? (
           <Modal
-            visible={show || false}
+            visible={show}
             onCancel={() => this.handleClose(onClose)}
             footer={null}
             width={width + 32}
           >
             <div style={{ width }}>
               <img
-                alt={srcStr}
-                src={srcStr}
+                alt={src}
+                src={src}
                 style={{ width, transform: 'rotate(' + deg + 'deg)' }}
               />
             </div>
@@ -172,3 +149,10 @@ export default class ImageModal extends React.Component {
     );
   }
 }
+
+ImageModal.propTypes = propTypes;
+
+ImageModal.defaultProps = {
+  show: false,
+};
+export default ImageModal;

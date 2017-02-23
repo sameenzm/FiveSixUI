@@ -3,21 +3,21 @@ import { PASSWORD_MASK } from './constant';
 const verify = {};
 
 verify.formfieldsValidate = (form, showMsg) => {
-    let errMsg = '';
-    form.validateFields((errors, values) => {
-        if (!!errors) {
-            for(const key in errors) {
-                errMsg = errors[key].errors[0].message;
-                return;
-            }
-        }
-    });
-    if (errMsg !== '') {
-        showMsg && showMsg.call(null, errMsg);
-        return false;
-    } else {
-        return true;
+  let errMsg = '';
+  form.validateFields((errors, values) => {
+    if (!!errors) {
+      for(let key in errors) {
+        errMsg = errors[key].errors[0].message;
+        return;
+      }
     }
+  });
+  if (errMsg !== '') {
+    showMsg && showMsg.call(null, errMsg);
+    return false;
+  } else {
+    return true;
+  }
 }
 
 verify.setRules = (ruleArr, fieldName) => {
@@ -32,7 +32,7 @@ verify.setRules = (ruleArr, fieldName) => {
     }
   }
   return rules;
-}
+};
 
 export default verify;
 
@@ -40,7 +40,7 @@ const RULEMAPPING = {};
 
 RULEMAPPING.REQUIRED = (fieldName = '此项') => (
   { required: true, message: `${fieldName}为必填项` }
-)
+);
 
 RULEMAPPING.USER_PASSWORD = (fieldName = '密码') => (
   {

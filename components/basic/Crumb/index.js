@@ -11,8 +11,8 @@ import { Breadcrumb } from 'antd';
 
 import './styles.less';
 /**
- * 组件属性申明
- * @property {array} data 面包屑数组(必要) [{title: '骑士管理', link: ''},{title: '装备管理'}]
+ * 组件属性说明
+ * @property {array} data 面包屑数组(必填) defaultValue: [{title: '骑士管理', link: ''},{title: '装备管理'}]
  */
 const propTypes = {
   data: PropTypes.array.isRequired,

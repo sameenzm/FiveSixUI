@@ -5,7 +5,6 @@
 */
 /* eslint import/no-unresolved: 0*/
 import React, { PropTypes } from 'react';
-import '../styles.less';
 /**
  * 组件属性申明
  *

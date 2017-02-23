@@ -3,7 +3,7 @@
  */
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
-import { TimeRangePicker, UserPassWordInput, BankSelect, verify } from 'fivesix';
+import { TimeRangePicker, UserPassWordInput, BankSelect, verify, UploadImage } from 'fivesix';
 
 import { Form, Button, Input } from 'antd';
 
@@ -44,6 +44,13 @@ class TestForm extends Component {
                 })(
                   <BankSelect />
                 )}
+              </FormItem>
+              <FormItem>
+                <UploadImage
+                  showSize        = {true}
+                  imgUrl          = "https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/6d81800a19d8bc3ed69473cb848ba61ea8d34516.jpg"
+                  imgName         = '上传图片test'
+                  uploadService   = '/logistics/uploadpic' />
               </FormItem>
               <FormItem>
                 <Button onClick={(event) => this.handleSubmit(event)}>提交</Button>

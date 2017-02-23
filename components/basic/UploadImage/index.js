@@ -12,6 +12,7 @@ import $ from 'jquery';
 
 /**
  * 组件属性申明
+ *
  * @property {string} uploadService 上传的服务器地址，必须
  * @property {string} imgName 图片名，必须
  * @property {string} imgUrl 图片链接
@@ -199,4 +200,3 @@ export default class UploadImage extends React.Component {
     );
   }
 }
-

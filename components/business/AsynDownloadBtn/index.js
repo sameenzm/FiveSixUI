@@ -11,7 +11,7 @@ import { Button, Modal } from 'antd';
 /**
  * 组件属性申明
  *
- * @property {func} downloadAction 关闭查看器组件事件【无参
+ * @property {function} downloadAction 关闭查看器组件事件
  */
 const propTypes = {
   downloadAction: PropTypes.func,

@@ -14,44 +14,34 @@ import { findDOMNode } from 'react-dom';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import lazyCache from 'react-lazy-cache';
 import $ from 'jquery';
+import './styles.less';
 /**
- * 组件属性申明
+ * 组件属性说明
  *
- * @property {bool} disabled
- * @property {(string|number)} width
- * @property {bool} multiple
- * @property {array} data          - example
- *                                           [                                 [
- *                                              {                                 {
- *                                                  value: 'lanye',                   text: '岚烨',
- *                                                  text: '岚烨'                      children: [
- *                                              }, ...                                             {
- *                                           ]                                                         value: 'lanye1',
- *                                                                                                     text: '岚烨1'
- *                                                                                                 }, ...
- *                                                                                              ]
- *                                                                                 }, ...
- *                                                                             ]
- * @property {string, array} value - 可控模式，必须提供，单选时是string，复选是array
- *                                 - 字面量 有时候，data源自后端，value初始化成为问题，因而提供了以下几个字面量：
- *                                   - @param {string} ALL
- *                                   - @return {(string|array)} 先返回'ALL'，然后返回全部value
- *                                   - @param {string} FIRST
- *                                   - @return {(string|array)} 先返回'FIRST'，然后返回第一个value
- *                                   - @param {string} LAST
- *                                   - @return {(string|array)} 先返回'LAST'， 然后返回最后一个value
- *                                   - @param {string} ANY
- *                                   - @return {(string|array)} 先返回'ANY'，然后返回任意一个value
- *                                   - @param {string} ANTIALL
- *                                   - @return {(string|array)} 返回'ANTIALL' 全选，不同于ALL，该字面量是为了有些情况下，初始化想要全选，但是value值为空
+ * @property {bool} disabled 是否禁用 defaultValue: false
+ * @property {(string|number)} width 宽度 defaultValue: 150px
+ * @property {bool} multiple 是否多选 defaultValue: false
+ * @property {array} data 数据（必填）
+ * @property {string, array} value 可控模式，必须提供，单选时是string，复选是array
+ *    - 字面量 有时候，data源自后端，value初始化成为问题，因而提供了以下几个字面量：
+ *      - @param {string} ALL
+ *      - @return {(string|array)} 先返回'ALL'，然后返回全部value
+ *      - @param {string} FIRST
+ *      - @return {(string|array)} 先返回'FIRST'，然后返回第一个value
+ *      - @param {string} LAST
+ *      - @return {(string|array)} 先返回'LAST'， 然后返回最后一个value
+ *      - @param {string} ANY
+ *      - @return {(string|array)} 先返回'ANY'，然后返回任意一个value
+ *      - @param {string} ANTIALL
+ *      - @return {(string|array)} 返回'ANTIALL' 全选，不同于ALL，该字面量是为了有些情况下，初始化想要全选，但是value值为空
  *                                 - 字面量会引起组件的re-render，字面量依然会在第一次被父组件获取到，因此，一定要加以判断
  *                                 - 字面量是反模式，尽量不要使用
- * @property {function} onChange - 可控模式，必须提供，返回用户操作带来的value变化，是否允许该变化由父组件决定
+ * @property {function} onChange 可控模式，必须提供，返回用户操作带来的value变化，是否允许该变化由父组件决定
+ * @property {bool} showSearch 是否显示搜索 defaultValue: false
+ * @property {bool} showAll 是否显示全部 defaultValue: false
+ * @property {bool} allowClear 是否允许清楚选项 defaultValue: false
+ * @property {object} style 样式
  * @deprecated {string, array} defaultValue - 不再提供defaultValue，直接设置value，不影响antd form 提供的initialValue
- * @property {bool} showSearch
- * @property {bool} showAll
- * @property {bool} allowClear
- * @property {object} style
  */
 const propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -386,7 +376,8 @@ class Select extends Component {
       if (v.length > 9) {
         const d = $('.computeFontWidth');
         d.html(v);
-        return d.width();
+        const half = v.replace(/\s/g,"1").match(/[a-zA-Z0-9]/g).length;
+        return d.width() || ((v.length - half) * 2 + half) * 6;
       }
       return 0;
     };
@@ -531,9 +522,8 @@ class Select extends Component {
         </div>
         <div
           style={{ top: '0px', visibility: 'hidden', fontSize: '12px', display: 'block', position: 'absolute' }}
-          className="computeFontWidth"
-        />
-      </div >
+          className="computeFontWidth"></div>
+      </div>
     );
   }
 }

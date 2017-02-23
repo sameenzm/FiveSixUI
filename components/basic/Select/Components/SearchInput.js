@@ -6,7 +6,6 @@
 /* eslint import/no-unresolved: 0*/
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
-import '../styles.less';
 /**
  * 组件属性申明
  *
