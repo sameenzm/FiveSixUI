@@ -16,8 +16,9 @@ import './styles.less';
  * @property {array}          value            当前值                  defaultValue:[]
  * @property {number|string}  min              最小值                  defaultValue:-Infinity
  * @property {number|string}  max              最大值                  defaultValue:Infinity
+ * @property {number}         maxSerialLength  最大序列长度             defaultValue:Infinity
  * @property {number}         step             步数                    defaultValue:1
- * @property {bool}           disabled         是否可编辑              defaultValue:false
+ * @property {bool}           disabled         是否可编辑              defaultValue:false 可选值：'start','end','startEnd','all', false
  * @property {func}           onChange         变化时回调函数
  */
 const propTypes = {
@@ -30,8 +31,9 @@ const propTypes = {
     PropTypes.number,
     PropTypes.oneOf(['Infinity']),
   ]),
+  maxSerialLength: PropTypes.number,
   step: PropTypes.number,
-  disabled: PropTypes.bool,
+  disabled: PropTypes.oneOf(['start', 'end', 'startEnd', 'all', false]),
   onChange: PropTypes.func,
 };
 
@@ -155,24 +157,24 @@ export default class SerialInput extends React.Component {
   }
   render() {
     const { serials } = this.state;
-    const { min, max, step, disabled } = this.props;
+    const { min, max, step, disabled, maxSerialLength } = this.props;
 
     return (<div className="wl-serialinput-con">
-      { serials.map((item, index, arr) => {
+      {serials.map((item, index, arr) => {
         if (index === 0) {
           return (<span key={index} className="wl-serialinput-input">
             {
               item === '-Infinity' ? <Input value={item} disabled /> : <InputNumber
-                value={item}
+                value={+item}
                 step={step}
-                max={arr[index + 1] === 'Infinity' ? 'Infinity' : (arr[index + 1] - step)}
+                max={arr[index + 1] === Infinity ? Infinity : (arr[index + 1] - step)}
                 key={index}
-                disabled={disabled}
+                disabled={'start,startEnd,all,'.indexOf(disabled + ',') !== -1}
                 onChange={value => this.changeInput(index, value)}
               />
             }
             {
-              !disabled && min === '-Infinity' ? <Icon
+              'start,startEnd,all,'.indexOf(disabled + ',') === -1 && min === '-Infinity' ? <Icon
                 type="retweet"
                 onClick={() => this.revertInput(index, item)}
               /> : ''
@@ -182,7 +184,7 @@ export default class SerialInput extends React.Component {
                 type="ghost"
                 shape="circle"
                 icon="caret-right"
-                disabled={disabled || item + step === arr[index + 1]}
+                disabled={disabled === 'all' || maxSerialLength <= arr.length || item + step === arr[index + 1]}
                 onClick={() => this.addInput(index)}
               />
             </span>
@@ -191,16 +193,16 @@ export default class SerialInput extends React.Component {
           return (<span key={index} className="wl-serialinput-input">
             {
               item === 'Infinity' ? <Input value={item} disabled /> : <InputNumber
-                value={item}
+                value={+item}
                 step={step}
-                min={arr[index - 1] === '-Infinity' ? '-Infinity' : (arr[index - 1] + step)}
+                min={arr[index - 1] === -Infinity ? -Infinity : (arr[index - 1] + step)}
                 key={index}
-                disabled={disabled}
+                disabled={'end,startEnd,all,'.indexOf(disabled + ',') !== -1}
                 onChange={value => this.changeInput(index, value)}
               />
             }
             {
-              !disabled && max === 'Infinity' ? <Icon
+              'end,startEnd,all,'.indexOf(disabled + ',') === -1 && max === 'Infinity' ? <Icon
                 type="retweet"
                 onClick={() => this.revertInput(index, item)}
               /> : ''
@@ -209,16 +211,16 @@ export default class SerialInput extends React.Component {
         }
         return (<span key={index} className="wl-serialinput-input">
           <InputNumber
-            value={item}
+            value={+item}
             step={step}
-            min={arr[index - 1] === '-Infinity' ? '-Infinity' : (arr[index - 1] + step)}
-            max={arr[index + 1] === 'Infinity' ? 'Infinity' : (arr[index + 1] - step)}
+            min={arr[index - 1] === -Infinity ? -Infinity : (arr[index - 1] + step)}
+            max={arr[index + 1] === Infinity ? Infinity : (arr[index + 1] - step)}
             key={index}
-            disabled={disabled || item + step === arr[index + 1]}
+            disabled={disabled === 'all' || item + step === arr[index + 1]}
             onChange={value => this.changeInput(index, value)}
           />
           {
-            !disabled ? <Icon
+            disabled !== 'all' ? <Icon
               type="close-circle"
               onClick={() => this.deleteInput(index)}
             /> : ''
@@ -228,7 +230,7 @@ export default class SerialInput extends React.Component {
               type="ghost"
               shape="circle"
               icon="caret-right"
-              disabled={disabled || item + step === arr[index + 1]}
+              disabled={disabled === 'all' || maxSerialLength <= arr.length || item + step === arr[index + 1]}
               onClick={() => this.addInput(index)}
             />
           </span>
