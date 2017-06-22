@@ -107,20 +107,6 @@
   text-align: center !important;
 }
 
-.wl-searchperiod-type {
-  margin-right: 8px;
-}
-
-.wl-searchperiod-type label.ant-radio-button-checked {
-  background: #ff2b4d;
-  color: #fff;
-}
-
-.wl-searchperiod-removedate {
-  display: inline-block;
-  margin-left: 8px;
-}
-
 .wl-imagemodal-wrapper {
   display: inline-block;
 }
@@ -138,6 +124,20 @@
 
 .period-container {
   margin-bottom: 5px;
+}
+
+.wl-searchperiod-type {
+  margin-right: 8px;
+}
+
+.wl-searchperiod-type label.ant-radio-button-checked {
+  background: #ff2b4d;
+  color: #fff;
+}
+
+.wl-searchperiod-removedate {
+  display: inline-block;
+  margin-left: 8px;
 }
 
 .wl-search-input-wrapper {
