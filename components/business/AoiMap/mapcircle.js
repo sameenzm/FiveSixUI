@@ -341,10 +341,10 @@ MapCircle.prototype = {
     var me = this;
     if (arr && arr.length) {
       arr.forEach(function (label) {
-        this.map.addOverlay(label);
+        me.map.addOverlay(label);
       });
     }
-    return this;
+    return me;
   },
   // 开启画标记点功能
   openDrawingMarker: function () {
