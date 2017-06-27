@@ -329,8 +329,8 @@ export default class AoiMap extends Component {
     const deleteMenu = (
       <Menu onClick={this.handleDelete}>
         <Menu.Item key="all">全部</Menu.Item>
-        <Menu.Item key="region" disabled={regionTools.indexOf('delete') === -1}><Icon type="appstore" /> 区域</Menu.Item>
-        <Menu.Item key="point" disabled={pointTools.indexOf('delete') === -1}><Icon type="environment" /> 地点</Menu.Item>
+        <Menu.Item key="regions" disabled={regionTools.indexOf('delete') === -1}><Icon type="appstore" /> 区域</Menu.Item>
+        <Menu.Item key="points" disabled={pointTools.indexOf('delete') === -1}><Icon type="environment" /> 地点</Menu.Item>
       </Menu>
     );
 
