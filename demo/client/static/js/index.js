@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 
 import Homepage from './homepage';
 import Form from './form';
+import MapDemo from './mapdemo';
 
 
 render (
@@ -12,6 +13,7 @@ render (
             <Route path="/">
                 <Route path="homepage" component={Homepage} />
                 <Route path="form" component={Form} />
+                <Route path="map" component={MapDemo} />
             </Route>
         </Router>
     </div>,

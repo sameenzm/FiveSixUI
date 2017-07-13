@@ -22,5 +22,6 @@ export { default as MultiTimeItem } from './business/MultiTimeItem';
 export { default as SynDownloadBtn } from './business/SynDownloadBtn';
 export { default as TeamTypeRadio } from './business/TeamTypeRadio';
 export { default as UserPassWordInput } from './business/UserPassWordInput';
+export { default as FitArea } from './business/FitArea';
 
 export { default as verify } from './verify';
